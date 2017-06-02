@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoBannerView">
+        <attr name="dotGravity" format="enum">
+            <enum name="left" value="1" />
+            <enum name="center" value="2" />
+            <enum name="right" value="3"/>
+        </attr>
+        <attr name="waitMilliSecond" format="integer"/>
+        <attr name="dotMargin" format="dimension" />
+    </declare-styleable>
+
+    <!--圆形imageView-->
+    <declare-styleable name="round_image_view">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_incolor" format="color" />
+        <attr name="border_outcolor" format="color"></attr>
+    </declare-styleable>
+
+
+    <!--加载进度-->
+    <declare-styleable name="CircleProgressBar">
+        <attr name="mlpb_inner_radius" format="dimension" />
+        <attr name="mlpb_background_color" format="color" />
+        <attr name="mlpb_progress_color" format="color" />
+        <attr name="mlpb_progress_stoke_width" format="dimension" />
+        <attr name="mlpb_show_arrow" format="boolean" />
+        <attr name="mlpb_enable_circle_background" format="boolean" />
+        <attr name="mlpb_arrow_width" format="dimension" />
+        <attr name="mlpb_arrow_height" format="dimension" />
+        <attr name="mlpb_progress" format="integer" />
+        <attr name="mlpb_max" format="integer" />
+        <attr name="mlpb_progress_text_size" format="dimension" />
+        <attr name="mlpb_progress_text_color" format="color" />
+
+        <!-- <attr name="mlpb_progress_text_offset" format="dimension"/> -->
+
+        <attr name="mlpb_progress_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <!--导航条-->
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="visible_tab_count" format="integer" />
+        <attr name="visibletextcolor" format="color"></attr>
+        <attr name="visiblelinecolor" format="color"></attr>
+        <attr name="textcolor" format="color"></attr>
+    </declare-styleable>
+</resources>

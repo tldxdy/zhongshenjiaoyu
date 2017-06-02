@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.yunduancn.zhongshenjiaoyu.fragment.NewsFragment">
+
+    <include layout="@layout/home_head"
+        android:layout_height="44dp"
+        android:layout_width="match_parent"></include>
+
+
+    <com.yunduancn.zhongshenjiaoyu.MyRecyclerView.SwipeRecyclerView
+        android:id="@+id/swipeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+</LinearLayout>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_course_information"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.yunduancn.zhongshenjiaoyu.activity.CourseInformationActivity">
+
+    <com.yunduancn.zhongshenjiaoyu.view.MyScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/dp_44"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@mipmap/boot_page1"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:id="@+id/image_course"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:paddingRight="30dp"
+                android:layout_marginTop="-40dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="人力资源管理"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_name"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textSize="@dimen/dp_16"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:srcCompat="@mipmap/ic_collection"
+                    android:id="@+id/image_collection" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"
+                    android:background="#1c9f5c"
+                    android:id="@+id/view" />
+
+
+                <TextView
+                    android:text="课程介绍："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                     />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="\t\t人力资源管理，是指在经济学与人本思想指导下，通过招聘、甄选、培训、报酬等管理形式对组织内外相关人力资源进行有效运用，满足组织当前及未来发展的需要，保证组织目标实现与成员发展的最大化的一系列活动的总称。就是预测组织人力资源需求并作出人力需求计划、招聘选择人员并进行有效组织、考核绩效支付报酬并进行有效激励、结合组织与个人需要进行有效开发以便实现最优组织绩效的全过程。学术界一般把人力资源管理分八大模块或者六大模块：\n\t\t\t\t1、人力资源规划；\n\t\t\t\t2、招聘与配置；\n\t\t\t\t3、培训与开发；\n\t\t\t\t4、绩效管理；\n\t\t\t\t5、薪酬福利管理；\n\t\t\t\t6、劳动关系管理。\n\t\t诠释人力资源管理六大模块核心思想所在，帮助企业主掌握员工管理及人力资源管理的本质。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_20"
+                android:id="@+id/text_introduce" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="#f2f2f2"
+                />
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"
+                    android:background="#1c9f5c"
+                     />
+
+
+                <TextView
+                    android:text="课程提纲："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_14"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    />
+
+            </LinearLayout>
+
+    <com.yunduancn.zhongshenjiaoyu.view.MyListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+
+    </com.yunduancn.zhongshenjiaoyu.view.MyListView>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="#f2f2f2"
+                />
+
+
+        </LinearLayout>
+
+    </com.yunduancn.zhongshenjiaoyu.view.MyScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/tob_layout"
+        android:orientation="horizontal"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44">
+
+        <ImageView
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginStart="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/back_b"
+            android:id="@+id/back_image" />
+
+        <TextView
+            android:text="人力资源管理"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/dp_16"
+            android:textColor="@color/white"
+            android:id="@+id/title" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_study"
+        android:background="#129955"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_18"
+        android:text="开始学习"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44" />
+</FrameLayout>

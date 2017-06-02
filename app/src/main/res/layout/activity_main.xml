@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yunduancn.zhongshenjiaoyu.MainActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+    <com.wakehao.bar.BottomNavigationBar
+        android:id="@+id/bar"
+        app:switchMode="scale"
+        app:menu="@menu/menu"
+        app:selectedColor="#009966"
+        app:unSelectedColor="#999999"
+        app:fragmentContainerId="@id/viewPager"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+    </com.wakehao.bar.BottomNavigationBar>
+    <!--<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+    </LinearLayout>-->
+
+
+</LinearLayout>

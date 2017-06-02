@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid
+        android:color="#129955"/>
+    //或者将这段换成下面这个也可以达到效果
+    <corners android:radius="@dimen/dp_20"/>
+</shape>
