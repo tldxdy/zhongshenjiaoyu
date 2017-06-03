@@ -119,13 +119,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         OkHttp_Utils.PostMethods(map, UrlUtils.loginurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
-                Dialogmanager.loadfinsh(1000);
+                Dialogmanager.loadfinsh(0);
                 ToastUtils.show(getApplicationContext(), e.toString());
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(1000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("response.toString()",response.toString());
 
 

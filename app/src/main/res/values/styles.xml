@@ -19,4 +19,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <!--AvatarDialog 这个自定义控件使用的样式-->
+    <style name="avatar_dialog_animation">
+        <item name="android:windowEnterAnimation">@anim/avatar_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/avatar_dialog_out</item>
+    </style>
+
 </resources>

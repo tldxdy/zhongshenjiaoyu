@@ -5,7 +5,10 @@ package com.yunduancn.zhongshenjiaoyu.utils;
  */
 
 public class UrlUtils {
-    final static String url = "http://www.jxsqjy.cn/";
+
+    final static String url = "http://ceshi.yunduancn.cn/";
+
+    //final static String url = "http://www.jxsqjy.cn/";
 
 
     public final static String AK = "697dfc53a28b4ea2b8df2d13d4298f12";
@@ -52,6 +55,14 @@ public class UrlUtils {
      */
     public static String registerurl = url + "mapi_v1/register";
 
+    /**
+     * 修改密码
+     */
+    public static String getpasswordurl = url + "mapi_v1/getpassword";
 
+    /**
+     * 找回密码获取验证码
+     */
+    public static String getcodeurl = url + "mapi_v1/getcode";
 
 }

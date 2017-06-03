@@ -175,25 +175,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onMyError(Call call, Exception e, int id) {
-                Dialogmanager.loadfinsh(1000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("registerurl",e.toString());
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(1000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("registerurl",response.toString());
 
                 try {
                     JSONObject json = new JSONObject(response);
                     int code = json.getInt("code");
                     if(code == 0){
-                        JSONObject obj = json.getJSONObject("obj");
-                        JSONArray array = obj.getJSONArray("items");
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<CourseCategoryModel>>() {}.getType();
-                    }
 
+                        RegisterActivity.this.finish();
+
+                        /**
+                         *
+                         {"msg":"\u7528\u6237\u6ce8\u518c\u6210\u529f\uff01",
+                         "obj":{"id":"109","email":"user_nl3b85p23@edusoho.net","verifiedMobile":"18079176112","password":"anwIpAf+Jpz0BLsOWkCeYpx8mhgykE1ZVBUIfLQUINw=","salt":"k4y82yiljgg4ggcgwgcsw0wkscwskgg","payPassword":"","payPasswordSalt":"","locale":null,"uri":"","nickname":"m149645024677","title":"","tags":"","type":"web_mobile","point":"0","coin":"0","smallAvatar":"","mediumAvatar":"","largeAvatar":"","emailVerified":"0","setup":"1","roles":["ROLE_USER"],"promoted":"0","promotedSeq":"0","promotedTime":"0","locked":"0","lockDeadline":"0","consecutivePasswordErrorTimes":"0","lastPasswordFailTime":"0","loginTime":"0","loginIp":"","loginSessionId":"","approvalTime":"0","approvalStatus":"unapprove","newMessageNum":"0","newNotificationNum":"0","createdIp":"106.5.137.99","createdTime":"1496450246","updatedTime":"1496450246","inviteCode":null,"orgId":"1","orgCode":"1.","registeredWay":"app"},"code":"0"}
+                         */
+                    }
+                    ToastUtils.show(getApplicationContext(),json.getString("msg"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

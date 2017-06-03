@@ -23,7 +23,10 @@
     <string name="hot_course">热门课程</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="large_text">
+
+    <string name="photoPickerNotFoundText">手机中无可用的图片</string>
+
+<string name="large_text">
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
