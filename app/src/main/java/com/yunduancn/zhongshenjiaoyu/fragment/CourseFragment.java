@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.yunduancn.zhongshenjiaoyu.BaiduVideo.info.VideoInfo;
 import com.yunduancn.zhongshenjiaoyu.R;
@@ -25,7 +26,7 @@ import java.util.List;
 public class CourseFragment extends Fragment {
 
 
-
+    private TextView title;
 
     ViewPager vp;
     WePagerAdapter wePagerAdapter;
@@ -42,7 +43,7 @@ public class CourseFragment extends Fragment {
     }
     View view;
 
-    Button button;
+    //Button button;
 
 
     @Override
@@ -50,7 +51,7 @@ public class CourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_course, container, false);
 
-        button = (Button) view.findViewById(R.id.button);
+        /*button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +68,7 @@ public class CourseFragment extends Fragment {
                 intent.putExtra("videoInfo", info);
                 getContext().startActivity(intent);
             }
-        });
+        });*/
 
 
 
@@ -77,6 +78,9 @@ public class CourseFragment extends Fragment {
     }
 
     private void initView() {
+        title = (TextView) view.findViewById(R.id.title);
+        title.setText("课程");
+
         flist = new ArrayList<Fragment>();
         flist.add(new CrowdFragment());
 

@@ -15,6 +15,7 @@
     <string name="title_activity_guide">GuideActivity</string>
     <string name="news_introduction">日前，“永恒之蓝”席卷全球，已经有90个国家遭到攻击。国内教育网是遭到攻击的重灾区。不过，在安装相对老旧版本Windows的电脑普遍遭到攻击之时，不少安装linux衍生版操作系统的电脑和苹果电脑逃过一劫。不少网友在网上纷纷表示庆幸，并对linux或苹果的安全性大加赞美之词。但实际上，并非是这些操作系统在技术上拥有明显高于Windows安全性，只是黑客没有专门针对其进行攻击而已。</string>
     <string name="loading">加载中...</string>
+    <string name="no_more_data">没有更多数据...</string>
     <string name="list_mode_list">点我切换模式-列表模式</string>
     <string name="list_mode_stagger">点我切换模式-图片模式</string>
     <string name="list_menu">菜单栏todo</string>
@@ -25,6 +26,8 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
 
     <string name="photoPickerNotFoundText">手机中无可用的图片</string>
+
+
 
 <string name="large_text">
         "Material is the metaphor.\n\n"

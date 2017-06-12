@@ -1,5 +1,6 @@
 package com.yunduancn.zhongshenjiaoyu.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,12 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.CourseListActivity;
 import com.yunduancn.zhongshenjiaoyu.adapter.CourseCategoryAdapter;
 import com.yunduancn.zhongshenjiaoyu.model.CourseCategoryModel;
 import com.yunduancn.zhongshenjiaoyu.utils.OkHttp_Utils;
@@ -61,6 +64,17 @@ public class DisciplineCenterFragment extends Fragment {
     private void initView() {
         classification_gridview = (GridView) view.findViewById(R.id.classification_gridview);
         list = new ArrayList<>();
+
+        classification_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent = new Intent();
+                intent.setClass(getContext(), CourseListActivity.class);
+                intent.putExtra("course",list.get(i));
+                startActivity(intent);
+            }
+        });
 
     }
 

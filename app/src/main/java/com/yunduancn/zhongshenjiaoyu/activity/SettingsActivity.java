@@ -18,6 +18,7 @@ import com.yunduancn.zhongshenjiaoyu.utils.Constant;
 import com.yunduancn.zhongshenjiaoyu.utils.DataCleanManager;
 import com.yunduancn.zhongshenjiaoyu.utils.SharedPreferencesUtils;
 import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
+import com.yunduancn.zhongshenjiaoyu.view.dialogexit;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -100,7 +101,23 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.cache_layout:
 
-                new AlertDialog.Builder(this).setTitle("提示")//设置对话框标题
+                dialogexit.show(this, "是否清理缓存数据？", new dialogexit.onexitlistener() {
+                    @Override
+                    public void exitlistener() {
+                        try {
+                            DataCleanManager.clearAllCache(getApplicationContext());
+                            cache_num.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ToastUtils.show(getApplicationContext(),"已清理缓存");
+
+                    }
+                });
+
+
+
+                /*new AlertDialog.Builder(this).setTitle("提示")//设置对话框标题
 
                         .setMessage("是否清理缓存数据？")//设置显示的内容
 
@@ -112,15 +129,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
 
-                                try {
-                                    DataCleanManager.clearAllCache(getApplicationContext());
-                                    cache_num.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                ToastUtils.show(getApplicationContext(),"已清理缓存");
 
-                                finish();
 
                             }
 
@@ -138,7 +147,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                     }
 
-                }).show();
+                }).show();*/
 
 
 
@@ -147,44 +156,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.exit_login:
 
-                new AlertDialog.Builder(this).setTitle("提示")//设置对话框标题
 
-                        .setMessage("是否退出登录？")//设置显示的内容
-
-                        .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮
-
-
-
-                            @Override
-
-                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-
-
-                                SharedPreferencesUtils.putValue(getApplicationContext(), Constant.AppName,"userId",null);
-
-                                ToastUtils.show(getApplicationContext(),"已退出登录");
-
-                                finish();
-
-                            }
-
-                        }).setNegativeButton("返回",new DialogInterface.OnClickListener() {//添加返回按钮
-
-
-
+                dialogexit.show(this, "是否退出登录？", new dialogexit.onexitlistener() {
                     @Override
+                    public void exitlistener() {
+                        SharedPreferencesUtils.putValue(getApplicationContext(), Constant.AppName,"userId",null);
 
-                    public void onClick(DialogInterface dialog, int which) {//响应事件
+                        ToastUtils.show(getApplicationContext(),"已退出登录");
 
-                        // TODO Auto-generated method stub
-
-                        Log.i("alertdialog"," 请保存数据！");
-
+                        finish();
                     }
-
-                }).show();
-
-
+                });
                 break;
 
 

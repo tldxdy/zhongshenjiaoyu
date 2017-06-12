@@ -65,4 +65,26 @@ public class UrlUtils {
      */
     public static String getcodeurl = url + "mapi_v1/getcode";
 
+
+
+    /**
+     * 2.2 课程列表
+     */
+    public static String courselisturl = url + "mapi_v1/courselist ";
+
+    /**
+     * 2.3  课程简介
+     */
+    public static String courseshowurl = url + "mapi_v1/courseshow ";
+
+
+    /**
+     * 2.4 加入学习
+     */
+    public static String joincourseurl = url + "mapi_v1/joincourse ";
+
+    /**
+     * 2.4.1 方法名
+     */
+    public static String courseplayurl = url + "mapi_v1/courseplay ";
 }

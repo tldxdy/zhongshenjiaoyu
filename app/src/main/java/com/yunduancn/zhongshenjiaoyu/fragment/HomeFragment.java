@@ -17,13 +17,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.activity.CourseInformationActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.CourseListActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.Coursectivity;
 import com.yunduancn.zhongshenjiaoyu.adapter.CourseAdapter;
+import com.yunduancn.zhongshenjiaoyu.adapter.CourseCategoryAdapter;
 import com.yunduancn.zhongshenjiaoyu.adapter.MyAutoBannerAdapter;
 import com.yunduancn.zhongshenjiaoyu.adapter.NewAndHotCourseAdapter;
+import com.yunduancn.zhongshenjiaoyu.model.CourseCategoryModel;
 import com.yunduancn.zhongshenjiaoyu.model.Coursesmodel;
 import com.yunduancn.zhongshenjiaoyu.model.RotateBean;
 import com.yunduancn.zhongshenjiaoyu.utils.Dialogmanager;
 import com.yunduancn.zhongshenjiaoyu.utils.OkHttp_Utils;
+import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
 import com.yunduancn.zhongshenjiaoyu.utils.UrlUtils;
 import com.yunduancn.zhongshenjiaoyu.view.AutoBannerView;
 import com.yunduancn.zhongshenjiaoyu.view.MyGridView;
@@ -69,10 +74,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private NewAndHotCourseAdapter hotCourseAdapter;
     List<Coursesmodel> hotCoursesList;
 
-
+    List<CourseCategoryModel> courselist;
     private CourseAdapter courseAdapter;
 
     private MyGridView classification_gridview;
+
+
+    private ImageView search_image;
 
 
 
@@ -85,8 +93,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initData();
         initDataNew();
         initDataHot();
+        initMore();
+
         return view;
     }
+
 
 
 
@@ -97,8 +108,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         new_course_change.setOnClickListener(this);
 
         newCoursesList = new ArrayList<>();
+
         newCourseAdapter = new NewAndHotCourseAdapter(getContext(),newCoursesList);
         new_course_gridview.setAdapter(newCourseAdapter);
+
+        new_course_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), CourseInformationActivity.class);
+                intent.putExtra("coursesmodel",newCoursesList.get(i));
+                startActivity(intent);
+            }
+        });
 
         hot_course_gridview = (MyGridView) view.findViewById(R.id.hot_course_gridview);
         hot_course_change = (ImageView) view.findViewById(R.id.hot_course_change);
@@ -110,14 +131,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hot_course_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getContext(), CourseInformationActivity.class));
+                Intent intent = new Intent(getContext(), CourseInformationActivity.class);
+                intent.putExtra("coursesmodel",hotCoursesList.get(i));
+                startActivity(intent);
+            }
+        });
+
+        courselist = new ArrayList<>();
+        classification_gridview = (MyGridView) view.findViewById(R.id.classification_gridview);
+        courseAdapter = new CourseAdapter(getContext(),courselist);
+        classification_gridview.setAdapter(courseAdapter);
+
+        classification_gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i != 7){
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), CourseListActivity.class);
+                    intent.putExtra("course",courselist.get(i));
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), Coursectivity.class);
+                    startActivity(intent);
+
+
+                }
             }
         });
 
 
-        classification_gridview = (MyGridView) view.findViewById(R.id.classification_gridview);
-        courseAdapter = new CourseAdapter(getContext(),list);
-        classification_gridview.setAdapter(courseAdapter);
 
         scrollView.smoothScrollTo(0, 0);
 
@@ -127,6 +170,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         autoBannerView.setWaitMilliSceond(3000);
         autoBannerView.setDotMargin(5);
         autoBannerView.setOnBannerChangeListener(onBannerChangeListener);
+
+
+
+        search_image = (ImageView) view.findViewById(R.id.search_image);
+        search_image.setOnClickListener(this);
 
     }
     /**
@@ -142,12 +190,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onMyError(Call call, Exception e, int id) {
                 Log.e("返回失败",e.toString());
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回成功",response);
                 try {
                     JSONObject json = new JSONObject(response);
@@ -173,6 +221,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    /**
+     * 课程分类
+      */
+    private void initMore() {
+        Map<String,String> map = new HashMap<>();
+        OkHttp_Utils.PostMethods(map, UrlUtils.hotclassurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+                Dialogmanager.loadfinsh(2000);
+                Log.e("返回失败",e.toString());
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                Dialogmanager.loadfinsh(2000);
+                Log.e("返回成功",response);
+
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if(code == 0){
+                        JSONObject obj = json.getJSONObject("obj");
+                        JSONArray array = obj.getJSONArray("items");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<ArrayList<CourseCategoryModel>>() {}.getType();
+                        ArrayList<CourseCategoryModel> lists = gson.fromJson(array.toString(),type);
+                        courselist.clear();
+                        courselist.addAll(lists);
+
+                        CourseCategoryModel model = new CourseCategoryModel();
+                        model.setClassname("更多课程");
+                        model.setPic(R.mipmap.gengduo + "");
+                        courselist.add(model);
+                        courseAdapter.notifyDataSetChanged();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     /**
      * 最新课程
@@ -285,6 +377,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 initDataHot();
                 break;
 
+
+            case R.id.search_image:
+
+                ToastUtils.show(getContext().getApplicationContext(),"点击搜索");
+                break;
 
             default:
 

@@ -1,35 +1,41 @@
 package com.yunduancn.zhongshenjiaoyu.activity;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.SwipeRecyclerView;
+import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.decoration.GridSpacingItemDecoration;
+import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListener;
+import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
 import com.yunduancn.zhongshenjiaoyu.R;
-import com.yunduancn.zhongshenjiaoyu.adapter.MyRecyclerViewAdapter;
-import com.yunduancn.zhongshenjiaoyu.adapter.MyRecyclerViewHolder;
-import com.yunduancn.zhongshenjiaoyu.model.NewsModel;
+import com.yunduancn.zhongshenjiaoyu.adapter.CourseListAdapter;
+import com.yunduancn.zhongshenjiaoyu.adapter.MyCourseListAdapter;
 import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCourseActivity extends AppCompatActivity implements View.OnClickListener, SwipeRecyclerView.OnLoadListener, MyRecyclerViewAdapter.OnItemClickListener {
+public class MyCourseActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
 
     TextView title;
 
     ImageView back_image;
 
-    private SwipeRecyclerView recyclerView;
-
-    private MyRecyclerViewAdapter adapter;
-
     private List<String> list;
+
+
+
+    private SwipeRefreshLayout mRefreshLayout;
+    private RecyclerView recyclerView;
+    private RecyclerTouchListener onTouchListener;
+    private GridLayoutManager mLayoutManager;
+    private MyCourseListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,7 @@ public class MyCourseActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_my_course);
 
         initView();
-        initData();
+        onRefresh();
     }
 
 
@@ -49,14 +55,37 @@ public class MyCourseActivity extends AppCompatActivity implements View.OnClickL
         back_image.setVisibility(View.VISIBLE);
         back_image.setOnClickListener(this);
 
-        recyclerView = (SwipeRecyclerView) findViewById(R.id.swipeRecyclerView);
-        recyclerView.getSwipeRefreshLayout().setColorSchemeColors(getResources().getColor(R.color.blue), getResources().getColor(R.color.green), getResources().getColor(R.color.orange), getResources().getColor(R.color.red));
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.RefreshLayout);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        //set layoutManager
-        recyclerView.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
+        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.blue), getResources().getColor(R.color.green), getResources().getColor(R.color.orange), getResources().getColor(R.color.red));
 
+        list = new ArrayList<>();
+        mRefreshLayout.setOnRefreshListener(this);
+        mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, 12, false));
+        mAdapter = new MyCourseListAdapter(this);
+        mAdapter.setJZDataList(list);
+        mAdapter.setHasMoreData(true);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addOnScrollListener(scrollListener);
+        //添加触摸监听
+        onTouchListener = new RecyclerTouchListener(this, recyclerView);
 
-        recyclerView.setOnLoadListener(this);
+        onTouchListener.setClickable(new RecyclerTouchListener.OnRowClickListener() {
+            @Override
+            public void onRowClicked(int position) {
+                ToastUtils.show(getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+            }
+
+            @Override
+            public void onIndependentViewClicked(int independentViewID, int position) {
+
+            }
+        });
+
+        recyclerView.addOnItemTouchListener(onTouchListener);
 
     }
 
@@ -66,19 +95,6 @@ public class MyCourseActivity extends AppCompatActivity implements View.OnClickL
         for(int i = 0; i < 10; i++){
             list.add(i + "");
         }
-        adapter = new MyRecyclerViewAdapter<String>(this,R.layout.my_course_item,list) {
-            @Override
-            public void onBindView(MyRecyclerViewHolder holder, int position) {
-                TextView course_name = holder.getView(R.id.course_name);
-                TextView course_describe = holder.getView(R.id.course_describe);
-                TextView course_study = holder.getView(R.id.course_study);
-                ImageView course_img = holder.getView(R.id.course_img);
-            }
-
-        };
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-        issss();
     }
 
     @Override
@@ -96,60 +112,55 @@ public class MyCourseActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    private void issss() {
-        if(list.size() > 20){
-            recyclerView.onNoMore("-- end --");
-            recyclerView.setLoadMoreEnable(false);
-        }else{
-            recyclerView.onWZ("加载中...");
-            recyclerView.setLoadMoreEnable(true);
+    private ScrollListener scrollListener = new ScrollListener(mLayoutManager) {
+        @Override
+        public void onLoadMore() {
+            loadMore();
         }
+    };
+
+    private void loadMore() {
+        //模拟加载更多
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (list.size() < 10) {
+                    mAdapter.setHasMoreDataAndFooter(false, true);
+                    return;
+                }
+                //currentpage++;
+                initDatajz();
+                ScrollListener.setLoadMore(!ScrollListener.loadMore);
+            }
+        }, 1000);
+    }
+
+    private void initDatajz() {
+        list.clear();
+        initData();
+        mAdapter.setJZDataList(list);
+    }
+
+
+    private void initDatasx() {
+        list.clear();
+        initData();
+        mAdapter.setSXDataList(list);
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(new Runnable(){
-
+        //避免刷新过快
+        new Handler().postDelayed(new Runnable() {
+            @Override
             public void run() {
-                list.clear();
-                for(int i = 0; i < 10; i++){
-                    list.add(i+"");
-                }
-                recyclerView.complete();
-                adapter.notifyDataSetChanged();
-
-                recyclerView.onLoadingMore();
-                recyclerView.stopLoadingMore();
-                issss();
+                //currentpage = 1;
+                initDatasx();
+                mRefreshLayout.setRefreshing(false);
+                ScrollListener.setLoadMore(true);
             }
-
-        }, 2000);
-
+        }, 1000);
     }
 
-    @Override
-    public void onLoadMore() {
-        new Handler().postDelayed(new Runnable(){
-
-            public void run() {
-                for(int i = 0; i < 5; i++){
-                    list.add(i + "");
-                }
-                if(list.size() > 20){
-                    recyclerView.onNoMore("-- end --");
-                }else{
-                    recyclerView.onWZ("加载中...");
-                    recyclerView.stopLoadingMore();
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-        }, 2000);
-
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        ToastUtils.show(getApplicationContext(), position + "");
-    }
 }

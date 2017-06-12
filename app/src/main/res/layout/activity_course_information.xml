@@ -45,6 +45,9 @@
                     android:id="@+id/text_name"
                     android:paddingLeft="@dimen/dp_10"
                     android:textSize="@dimen/dp_16"
+                    android:maxEms="10"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="@color/white"
                     android:layout_weight="1" />
 
@@ -176,6 +179,9 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="@dimen/dp_16"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/white"
             android:id="@+id/title" />
 

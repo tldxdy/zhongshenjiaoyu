@@ -26,22 +26,22 @@ import java.util.List;
 public class NewsFragment extends Fragment implements SwipeRecyclerView.OnLoadListener, MyRecyclerViewAdapter.OnItemClickListener {
 
 
+    private TextView title;
+
     private SwipeRecyclerView recyclerView;
 
     private MyRecyclerViewAdapter adapter;
 
+
+
     List<NewsModel> list;
 
-
-
     private OnFragmentInteractionListener mListener;
-
     public NewsFragment() {
         // Required empty public constructor
     }
-    View view;
 
-    private TextView title;
+    View view;
 
 
     @Override

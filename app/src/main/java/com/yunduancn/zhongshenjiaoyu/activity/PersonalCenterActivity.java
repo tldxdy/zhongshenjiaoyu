@@ -44,6 +44,8 @@ public class PersonalCenterActivity extends AppCompatActivity implements View.On
     RelativeLayout touxian_layout, profession_layout, signature_layout, nickname_layout, birthday_layout, region_layout, binding_phone_layout, binding_email_layout, real_name_layout, school_registration_layout;
 
 
+    TextView profession_text, signature_text, nickname_text, birthday_text, region_text, binding_phone_text, binding_email_text, real_name_text, school_registration_text;
+
 
     private static final int PHOTO_PICKED_WITH_DATA = 1881;
     private static final int CAMERA_WITH_DATA = 1882;
@@ -94,7 +96,15 @@ public class PersonalCenterActivity extends AppCompatActivity implements View.On
         school_registration_layout = (RelativeLayout) findViewById(R.id.school_registration_layout);
         school_registration_layout.setOnClickListener(this);
 
-
+        profession_text = (TextView) findViewById(R.id.profession_text);
+        signature_text = (TextView) findViewById(R.id.signature_text);
+        nickname_text = (TextView) findViewById(R.id.nickname_text);
+        birthday_text = (TextView) findViewById(R.id.birthday_text);
+        region_text = (TextView) findViewById(R.id.region_text);
+        binding_phone_text = (TextView) findViewById(R.id.binding_phone_text);
+        binding_email_text = (TextView) findViewById(R.id.binding_email_text);
+        real_name_text = (TextView) findViewById(R.id.real_name_text);
+        school_registration_text = (TextView) findViewById(R.id.school_registration_text);
 
 
     }

@@ -7,6 +7,11 @@ import android.os.StrictMode;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.Update.UpdateModel;
 import com.yunduancn.zhongshenjiaoyu.Update.utils.CretinAutoUpdateUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -27,6 +32,23 @@ public class MyApplication extends Application
         }*/
         application = this;
         update();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+
+        OkHttpUtils.initClient(okHttpClient);
+
+
+
+
+
+
+
+
        // HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
 
 //        CookieJarImpl cookieJar1 = new CookieJarImpl(new MemoryCookieStore());

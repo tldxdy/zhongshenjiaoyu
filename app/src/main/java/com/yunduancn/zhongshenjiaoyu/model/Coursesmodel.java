@@ -15,6 +15,7 @@ public class Coursesmodel implements Serializable {
  "teachers": "admin",
  "seen": "5",
  "pic": "http://www.jxsqjy.cn/files/course/2017/05-17/160418214780320276.jpg?7.5.12"
+ "introduction": ""
  }
  */
     private String id;
@@ -22,6 +23,7 @@ public class Coursesmodel implements Serializable {
     private String teachers;
     private String seen;
     private String pic;
+    private String introduction;
 
     public String getId() {
         return id;
@@ -63,6 +65,14 @@ public class Coursesmodel implements Serializable {
         this.pic = pic;
     }
 
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
     @Override
     public String toString() {
         return "Coursesmodel{" +
@@ -71,6 +81,7 @@ public class Coursesmodel implements Serializable {
                 ", teachers='" + teachers + '\'' +
                 ", seen='" + seen + '\'' +
                 ", pic='" + pic + '\'' +
+                ", introduction='" + introduction + '\'' +
                 '}';
     }
 }
