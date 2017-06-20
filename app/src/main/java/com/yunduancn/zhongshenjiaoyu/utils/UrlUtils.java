@@ -83,8 +83,106 @@ public class UrlUtils {
      */
     public static String joincourseurl = url + "mapi_v1/joincourse ";
 
+
     /**
      * 2.4.1 方法名
      */
     public static String courseplayurl = url + "mapi_v1/courseplay ";
+
+    /**
+     * 2.5 课程详情
+     */
+    public static String kcjsshowurl = url + "mapi_v1/kcjsshow ";
+
+    /**
+     * 2.6 课程评论列表页面
+     */
+    public static String reviewsurl = url + "mapi_v1/reviews ";
+
+    /**
+     * 2.8 问答列表页面（完成）
+     */
+    public static String threadurl = url + "mapi_v1/thread ";
+
+    /**
+     6.1 我的首页
+     */
+    public static String userindexurl = url + "mapi_v1/userindex";
+
+    /**
+     6.2 个人信息
+     */
+    public static String userinfourl = url + "mapi_v1/userinfo";
+
+    /**
+     A、头像修改 largeAvatar
+     */
+    public static String largeavatarurl = url + "mapi_v1/userinfo/largeavatar";
+
+    /**
+     B、职业  job
+     */
+    public static String jobsurl = url + "mapi_v1/userinfo/jobs";
+
+
+    /**
+     C、签名
+    */
+    public static String signatureurl = url + "mapi_v1/userinfo/signature";
+
+    /**
+     D、昵称 nickname
+     */
+    public static String nicknameurl = url + "mapi_v1/userinfo/nickname";
+
+    /**
+     E、性别 gender
+     */
+    public static String genderurl = url + "mapi_v1/userinfo/gender";
+
+    /**
+     * F、生日 dateField1
+     */
+    public static String dateField1url = url + "mapi_v1/userinfo/dateField1";
+
+    /**
+     * G、地区 varcharField1
+     */
+    public static String varcharField1url = url + "mapi_v1/userinfo/varcharField1";
+
+
+
+    /**
+     6.4  我的课程
+     */
+    public static String mycourseurl = url + "mapi_v1/mycourse";
+    /**
+     6.6我的笔记
+     */
+    public static String mynotesurl = url + "mapi_v1/mynotes";
+
+    /**
+     6.6 我的笔记详细页面
+     */
+    public static String mynotesshowurl = url + "mapi_v1/mynotesshow";
+
+    /**
+     6.7 我的问答
+     */
+    public static String myaskurl = url + "mapi_v1/myask";
+
+    /**
+     7.0 新闻分类
+     */
+    public static String articlecategoryurl = url + "mapi_v1/articlecategory";
+
+    /**
+     * 7、新闻
+     7.1 新闻列表
+     http://ceshi.yunduancn.cn/mapi_v1/
+
+     */
+    public static String articleurl = url + "mapi_v1/article";
+
+
 }

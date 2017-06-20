@@ -18,6 +18,15 @@
     </declare-styleable>
 
 
+    <!--圆形imageView-->
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+
+
     <!--加载进度-->
     <declare-styleable name="CircleProgressBar">
         <attr name="mlpb_inner_radius" format="dimension" />
@@ -74,6 +83,14 @@
         </attr>
         <attr name="borderWidth_Ri" format="dimension" />
         <attr name="borderColor_Ri" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomRatingbar">
+        <attr name="cr_src" format="reference"></attr>//空心图片资源
+        <attr name="cr_like_src" format="reference"></attr>//实心图片资源
+        <attr name="cr_total_count" format="integer"></attr>//总数量
+        <attr name="cr_like_count" format="integer"></attr>//推荐的数量
+        <attr name="cr_size" format="reference"></attr>//大小
     </declare-styleable>
 
 </resources>

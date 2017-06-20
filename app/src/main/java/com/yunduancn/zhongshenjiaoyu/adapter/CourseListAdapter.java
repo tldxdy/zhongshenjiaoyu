@@ -43,8 +43,8 @@ public class CourseListAdapter extends BaseAdapter<Coursesmodel, CourseListAdapt
         if (data != null) {
             Glide.with(mContext)
                     .load(data.getPic())
-                    .placeholder(R.color.cl_default)
-                    .error(R.color.white)
+                    .placeholder(R.mipmap.news)
+                    .error(R.mipmap.news)
                     .into(holder.course_img);
             holder.course_name.setText(data.getCoursename());
 

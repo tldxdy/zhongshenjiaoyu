@@ -11,13 +11,18 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.adapter.CoursePlayingItemAdapter;
+import com.yunduancn.zhongshenjiaoyu.model.CourseChapterModel;
 import com.yunduancn.zhongshenjiaoyu.model.CourseListModel;
+import com.yunduancn.zhongshenjiaoyu.model.CoursePlayModel;
 import com.yunduancn.zhongshenjiaoyu.model.CourseshowModel;
 import com.yunduancn.zhongshenjiaoyu.model.Coursesmodel;
 import com.yunduancn.zhongshenjiaoyu.utils.Constant;
@@ -35,7 +40,9 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -49,7 +56,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
     TextView text_name, title, text_introduce;
 
-    ImageView image_collection, back_image;
+    ImageView image_collection, back_image, image_course;
     Drawable drawable;
 
     TextView text_study;
@@ -58,6 +65,11 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
     String userId;
 
     CourseshowModel courseshowModel;
+
+    private CoursePlayingItemAdapter adapter;
+    private ListView listview;
+    private List<CourseChapterModel> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +108,8 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
         image_collection = (ImageView) findViewById(R.id.image_collection);
         image_collection.setOnClickListener(this);
 
+        image_course = (ImageView) findViewById(R.id.image_course);
+
 
         drawable = getResources().getDrawable(R.mipmap.ic_collection);
 
@@ -103,10 +117,13 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
         scrollView.setScrollViewListener(this);
 
-
-
         text_introduce = (TextView) findViewById(R.id.text_introduce);
 
+        listview = (ListView) findViewById(R.id.listview);
+
+        list = new ArrayList<>();
+        adapter = new CoursePlayingItemAdapter(this,list,-1);
+        listview.setAdapter(adapter);
     }
 
 
@@ -154,7 +171,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
     private void initlearning() {
 
         Map<String, String> map = new HashMap<>();
-        map.put("courseId",coursesmodel.getId());
+        map.put("courseId",courseshowModel.getId());
         map.put("userid",  userId);
         OkHttp_Utils.PostMethods(map, UrlUtils.joincourseurl, new OkHttp_Utils.CallBack() {
             @Override
@@ -169,13 +186,6 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
                     JSONObject json = new JSONObject(response);
                     int code = json.getInt("code");
                     if (code == 0) {
-                        /*JSONObject obj = json.getJSONObject("obj");
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<CourseshowModel>() {
-                        }.getType();
-                        courseshowModel = gson.fromJson(obj.toString(),type);
-                        initFill();*/
-
                         initData();
 
                     } else {
@@ -195,6 +205,55 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
     }
 
 
+
+    private void initstudying() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("courseId",courseshowModel.getId());
+        map.put("lessonId",courseshowModel.getNextLearnLesson().getLessonId());
+        map.put("userid",  userId);
+        OkHttp_Utils.PostMethods(map, UrlUtils.courseplayurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+                Dialogmanager.loadfinsh(0);
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                Log.e("courseplayurl",response.toString());
+                Dialogmanager.loadfinsh(0);
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if (code == 0) {
+                         JSONObject obj = json.getJSONObject("obj");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<CoursePlayModel>() {
+                        }.getType();
+                        CoursePlayModel coursePlayModel = gson.fromJson(obj.toString(),type);
+                        Intent intent = new Intent(CourseInformationActivity.this, VideoActivity.class);
+                        intent.putExtra("coursePlayModel",coursePlayModel);
+                        intent.putExtra("courseId",courseshowModel.getId());
+                        startActivity(intent);
+
+
+                    } else {
+
+                        ToastUtils.show(getApplicationContext(), json.getString("msg"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
+    }
+
+
+
     private void initFill() {
 
         text_introduce.setMovementMethod(ScrollingMovementMethod.getInstance());// 设置可滚动
@@ -205,6 +264,16 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
         }else{
             text_study.setText("继续学习");
         }
+        Glide.with(this)
+                .load(courseshowModel.getPic())
+                .placeholder(R.color.cl_default)
+                .error(R.color.white)
+                .into(image_course);
+        list.clear();
+
+        list.addAll(courseshowModel.getItems());
+        adapter.notifyDataSetChanged();
+
 
     }
     Html.ImageGetter imgGetter = new Html.ImageGetter() {
@@ -267,11 +336,14 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
                         public void exitlistener() {
                             Dialogmanager.loadstart(CourseInformationActivity.this);
                             initlearning();
+                            text_study.setText("继续学习");
                         }
                     });
                 }else{
-                    Intent intent = new Intent(this, VideoActivity.class);
-                    startActivity(intent);
+                    initstudying();
+
+                    /*Intent intent = new Intent(this, VideoActivity.class);
+                    startActivity(intent);*/
                 }
                 break;
 

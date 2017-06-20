@@ -97,7 +97,7 @@ public class CourseFragment extends Fragment {
         mIndicator.setViewPager(vp, 0);
 
         vp.setOffscreenPageLimit(flist.size());//这表示你的预告加载的页面数量
-        wePagerAdapter = new WePagerAdapter(getActivity().getSupportFragmentManager(), flist);
+        wePagerAdapter = new WePagerAdapter(getChildFragmentManager(), flist);
         vp.setAdapter(wePagerAdapter);
     }
 

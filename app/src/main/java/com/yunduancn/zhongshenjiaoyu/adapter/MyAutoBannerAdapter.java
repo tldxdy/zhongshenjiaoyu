@@ -55,8 +55,8 @@ public class MyAutoBannerAdapter implements AutoBannerView.AutoBannerAdapter {
 
         Glide.with(context)
                 .load(urls.get(position).getPic())
-                .placeholder(R.color.cl_default)
-                .error(R.color.white)
+                .placeholder(R.mipmap.banner)
+                .error(R.mipmap.banner)
                 .into(viewHolder.img);
 
         convertView.setOnClickListener(new View.OnClickListener() {

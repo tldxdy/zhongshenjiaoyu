@@ -14,10 +14,32 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.activity.MyCourseActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.MyNotesActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.MyRelatedInformationActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.SettingsActivity;
-import com.yunduancn.zhongshenjiaoyu.view.RoundImageView;
+import com.yunduancn.zhongshenjiaoyu.model.UserIndexModel;
+import com.yunduancn.zhongshenjiaoyu.utils.Constant;
+import com.yunduancn.zhongshenjiaoyu.utils.L;
+import com.yunduancn.zhongshenjiaoyu.utils.OkHttp_Utils;
+import com.yunduancn.zhongshenjiaoyu.utils.SharedPreferencesUtils;
+import com.yunduancn.zhongshenjiaoyu.utils.UrlUtils;
+import com.yunduancn.zhongshenjiaoyu.view.CircleImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
 
 public class MyFragment extends Fragment implements OnClickListener{
 
@@ -33,7 +55,7 @@ public class MyFragment extends Fragment implements OnClickListener{
 
     private RelativeLayout user_information;
 
-    private RoundImageView user_image;
+    private CircleImageView user_image;
 
     private LinearLayout concern_layout, fans_layout, integral_layout;
     private TextView concern_num, fans_num, integral_num;
@@ -41,6 +63,9 @@ public class MyFragment extends Fragment implements OnClickListener{
     private LinearLayout mycourse_layout, mynotes_layout, myproblem_layout;
 
     private RelativeLayout historical_record_layout, myschedule_layout, mycollection_layout, settings_layout;
+
+
+    UserIndexModel userIndexModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +85,7 @@ public class MyFragment extends Fragment implements OnClickListener{
 
         user_name = (TextView) view.findViewById(R.id.user_name);
         learning_time = (TextView) view.findViewById(R.id.learning_time);
-        user_image = (RoundImageView) view.findViewById(R.id.user_image);
+        user_image = (CircleImageView) view.findViewById(R.id.user_image);
 
         concern_layout = (LinearLayout) view.findViewById(R.id.concern_layout);
         concern_layout.setOnClickListener(this);
@@ -100,7 +125,50 @@ public class MyFragment extends Fragment implements OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
+
+        initData();
         Log.e("onResume()","onResume()");
+    }
+
+    private void initData() {
+        Map<String,String> map = new HashMap<>();
+        map.put("userId", SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null));
+        OkHttp_Utils.PostMethods(map, UrlUtils.userindexurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                L.e("userindexurl",response.toString());
+                Log.e("返回成功",response);
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if(code == 0){
+                        JSONObject obj = json.getJSONObject("obj");
+                        JSONObject items = obj.getJSONObject("items");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<UserIndexModel>() {}.getType();
+                        userIndexModel = gson.fromJson(items.toString(),type);
+                        Picasso.with(getContext().getApplicationContext())
+                                .load(userIndexModel.getLargeAvatar())
+                                .placeholder(R.mipmap.me)
+                                .error(R.mipmap.me)
+                                .resize(100,100)
+                                .into(user_image);
+                        user_name.setText(userIndexModel.getNickname());
+                        concern_num.setText(userIndexModel.getFollowing());
+                        fans_num.setText(userIndexModel.getFollower());
+                        integral_num.setText(userIndexModel.getPoint());
+                        learning_time.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -146,6 +214,9 @@ public class MyFragment extends Fragment implements OnClickListener{
         switch (view.getId()){
             case R.id.user_information:
 
+                intent.setClass(getContext(), MyRelatedInformationActivity.class);
+                startActivity(intent);
+
                 break;
             case R.id.concern_layout:
 
@@ -159,10 +230,14 @@ public class MyFragment extends Fragment implements OnClickListener{
             case R.id.mycourse_layout:
 
                 intent.setClass(getContext(),MyCourseActivity.class);
+                intent.putExtra("CourseAndCollection",0);
                 startActivity(intent);
 
                 break;
             case R.id.mynotes_layout:
+
+                intent.setClass(getContext(), MyNotesActivity.class);
+                startActivity(intent);
 
                 break;
             case R.id.myproblem_layout:
@@ -175,10 +250,15 @@ public class MyFragment extends Fragment implements OnClickListener{
                 break;
             case R.id.mycollection_layout:
 
+                intent.setClass(getContext(),MyCourseActivity.class);
+                intent.putExtra("CourseAndCollection",1);
+                startActivity(intent);
+
                 break;
             case R.id.settings_layout:
 
                 intent.setClass(getContext(), SettingsActivity.class);
+                //intent.putExtra("userIndexModel",userIndexModel);
                 startActivity(intent);
 
 

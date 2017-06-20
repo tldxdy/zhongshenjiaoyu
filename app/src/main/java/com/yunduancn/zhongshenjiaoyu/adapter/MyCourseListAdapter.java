@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.adapter.BaseAdapter;
 import com.yunduancn.zhongshenjiaoyu.R;
-import com.yunduancn.zhongshenjiaoyu.model.Coursesmodel;
 
 /**
  * Created by lq on 16/6/29.

@@ -7,13 +7,13 @@
     <string name="new_course">最新课程</string>
     <string name="change">换一换</string>
     <string name="course_name">人力资源管理</string>
-    <string name="course_introduction">人力资源管理，是指在经济学与人本思想指导下，通过招聘、甄选、培训、报酬等管理形式对组织内外相关人力资源进行有效运用，满足组织当前及未来发展的需要，保证组织目标实现与成员发展的最大化的一系列活动的总称。</string>
+    <string name="course_introduction"></string>
     <string name="watch_number">500人看过</string>
     <string name="user_name">君莫笑</string>
     <string name="learning_time">学习时长：665小时</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
-    <string name="news_introduction">日前，“永恒之蓝”席卷全球，已经有90个国家遭到攻击。国内教育网是遭到攻击的重灾区。不过，在安装相对老旧版本Windows的电脑普遍遭到攻击之时，不少安装linux衍生版操作系统的电脑和苹果电脑逃过一劫。不少网友在网上纷纷表示庆幸，并对linux或苹果的安全性大加赞美之词。但实际上，并非是这些操作系统在技术上拥有明显高于Windows安全性，只是黑客没有专门针对其进行攻击而已。</string>
+    <string name="news_introduction"></string>
     <string name="loading">加载中...</string>
     <string name="no_more_data">没有更多数据...</string>
     <string name="list_mode_list">点我切换模式-列表模式</string>
@@ -119,5 +119,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="name"></string>
 
 </resources>

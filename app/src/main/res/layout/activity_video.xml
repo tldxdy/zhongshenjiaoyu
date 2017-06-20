@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hyman="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,6 +9,23 @@
         layout="@layout/simple_player_view_player"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
+
+    <com.yunduancn.zhongshenjiaoyu.view.ViewPagerIndicator
+        android:id="@+id/id_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#f4f4f4"
+        android:orientation="horizontal"
+        hyman:textcolor="#333333"
+        hyman:visible_tab_count="4"
+        hyman:visiblelinecolor="#129955"
+        hyman:visibletextcolor="#129955"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
 
 
 

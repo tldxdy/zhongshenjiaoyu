@@ -27,8 +27,9 @@ public class OkHttp_Utils {
                 String value = entry.getValue();
                 map1.put(key, value);
             }
+            map1.put("sign", pmutil.md5(map1));
+            Log.e("e", map1.toString());
         }
-        Log.e("e", map1.toString());
         OkHttpUtils.get()
                 .url(url)
                 .params(map1)
@@ -57,8 +58,20 @@ public class OkHttp_Utils {
                 String value = entry.getValue();
                 map1.put(key, value);
             }
-            Log.e("e1111111", map1.toString());
+
         }
+        /*Map<String, String> map2 = new HashMap<>();
+        for (Map.Entry<String, String> entry : map1.entrySet()) {
+            String key = entry.getKey().toLowerCase();
+            String value = entry.getValue().toLowerCase();
+            map2.put(key, value);
+        }*/
+
+
+
+        Log.e("e1111111", map1.toString());
+        map1.put("sign", pmutil.md5(map1));
+        //map1.put("sign", "adssssssasdasd");
         OkHttpUtils.post()
                 .url(url)
                 .params(map1)
@@ -91,11 +104,11 @@ public class OkHttp_Utils {
         String id= SharedPreferencesUtils.getValue(MyApplication.application.getApplicationContext(), Constant.AppName, "userId",null);
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("ver", AppUtil.getVersionName(MyApplication.application));
-        map.put("os", AppUtil.getAppos());
+        map.put("Ver", AppUtil.getVersionName(MyApplication.application));
+        map.put("OS", AppUtil.getAppos());
         map.put("code",AppUtil.getVersionCode(MyApplication.application) + "");
-        map.put("timestamp", "" + AppUtil.getTimeStamp());
-        Log.e("baseUserId",id +"");
+        map.put("Timestamp", "" + AppUtil.getTimeStamp());
+        Log.e("BaseUserId",id +"");
         if(id!=null&&!id.equals("")){
             map.put("BaseUserId", id);
         }else{

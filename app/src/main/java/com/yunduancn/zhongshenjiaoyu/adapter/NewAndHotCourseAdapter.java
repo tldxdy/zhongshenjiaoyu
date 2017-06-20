@@ -68,8 +68,8 @@ public class NewAndHotCourseAdapter extends BaseAdapter {
 
         Glide.with(context)
                 .load(coursesmodel.getPic())
-                .placeholder(R.color.cl_default)
-                .error(R.color.white)
+                .placeholder(R.mipmap.news)
+                .error(R.mipmap.news)
                 .into(viewHolder.course_img);
         viewHolder.course_name.setText(coursesmodel.getCoursename());
 

@@ -3,12 +3,16 @@ package com.yunduancn.zhongshenjiaoyu.activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -19,18 +23,40 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.adapter.WePagerAdapter;
+import com.yunduancn.zhongshenjiaoyu.fragment.Course_ChapterFragment;
+import com.yunduancn.zhongshenjiaoyu.fragment.Course_CommentsFragment;
+import com.yunduancn.zhongshenjiaoyu.fragment.Course_DetailsFragment;
+import com.yunduancn.zhongshenjiaoyu.fragment.Course_ProblemFragment;
+import com.yunduancn.zhongshenjiaoyu.model.CoursePlayModel;
+import com.yunduancn.zhongshenjiaoyu.utils.L;
 import com.yunduancn.zhongshenjiaoyu.utils.MediaUtils;
+import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
+import com.yunduancn.zhongshenjiaoyu.view.ViewPagerIndicator;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class VideoActivity extends AppCompatActivity{
+public class VideoActivity extends AppCompatActivity implements Course_ChapterFragment.OnFragmentInteractionListener {
     private PlayerView player;
     private Context mContext;
     private List<VideoijkBean> list;
     private PowerManager.WakeLock wakeLock;
     View rootView;
+
+    CoursePlayModel coursePlayModel;
+
+    ViewPager vp;
+    WePagerAdapter wePagerAdapter;
+    List<Fragment> flist;
+    ViewPagerIndicator mIndicator;
+    private List<String> mTitles = Arrays.asList("章节", "详情", "评论","问答");
+
+    public static String courseId;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +64,14 @@ public class VideoActivity extends AppCompatActivity{
         this.mContext = this;
         rootView = getLayoutInflater().from(this).inflate(R.layout.activity_video, null);
         setContentView(rootView);
+
+
+
+        initView();
+        initData();
+
+    }
+    private void initView() {
         /**虚拟按键的隐藏方法*/
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -62,27 +96,45 @@ public class VideoActivity extends AppCompatActivity{
             }
         });
 
-
         /**常亮*/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
         wakeLock.acquire();
+
+        coursePlayModel = (CoursePlayModel) getIntent().getSerializableExtra("coursePlayModel");
+        courseId = getIntent().getStringExtra("courseId");
+
+        flist = new ArrayList<Fragment>();
+        flist.add(new Course_ChapterFragment());
+
+        flist.add(new Course_DetailsFragment());
+        flist.add(new Course_CommentsFragment());
+        flist.add(new Course_ProblemFragment());
+        vp = (ViewPager) findViewById(R.id.viewpager);
+        mIndicator = (ViewPagerIndicator) findViewById(R.id.id_indicator);
+        mIndicator.setVisibaleTabCount(flist.size());
+        mIndicator.setTabItemTitles(mTitles);
+
+        // mIndicator.setVisibalelincolr(Color.argb(200, 100, 200, 100));
+        // mIndicator.setVisibalelincolr(getResources().getColor(R.color.blue));
+
+        mIndicator.setViewPager(vp, 0);
+
+        vp.setOffscreenPageLimit(flist.size());//这表示你的预告加载的页面数量
+        wePagerAdapter = new WePagerAdapter(getSupportFragmentManager(), flist);
+        vp.setAdapter(wePagerAdapter);
+    }
+
+
+
+    private void initData() {
+
         list = new ArrayList<VideoijkBean>();
-        //有部分视频加载有问题，这个视频是有声音显示不出图像的，没有解决http://fzkt-biz.oss-cn-hangzhou.aliyuncs.com/vedio/2f58be65f43946c588ce43ea08491515.mp4
-        //这里模拟一个本地视频的播放，视频需要将testvideo文件夹的视频放到安卓设备的内置sd卡根目录中
-        String url1 = getLocalVideoPath("my_video.mp4");
-        if (!new File(url1).exists()) {
-            url1 = "http://edu.yunduancn.cn/mapi_v1/courses/56/lessons/533/media?token=";
-        }
-        String url2 = "http://edu.yunduancn.cn/mapi_v1/courses/56/lessons/533/media?token=";
+
         VideoijkBean m1 = new VideoijkBean();
         m1.setStream("标清");
-        m1.setUrl(url1);
-        VideoijkBean m2 = new VideoijkBean();
-        m2.setStream("高清");
-        m2.setUrl(url2);
+        m1.setUrl(coursePlayModel.getPayurl());
         list.add(m1);
-        list.add(m2);
         player = new PlayerView(this, rootView) {
             @Override
             public PlayerView toggleProcessDurationOrientation() {
@@ -95,7 +147,7 @@ public class VideoActivity extends AppCompatActivity{
                 return super.setPlaySource(list);
             }
         }
-                .setTitle("什么")
+                .setTitle(coursePlayModel.getTitle())
                 .setProcessDurationOrientation(PlayStateParams.PROCESS_PORTRAIT)
                 .setScaleType(PlayStateParams.fillparent)
                 .forbidTouch(false)
@@ -105,9 +157,9 @@ public class VideoActivity extends AppCompatActivity{
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
                         Glide.with(mContext)
-                                .load("http://pic2.nipic.com/20090413/406638_125424003_2.jpg")
-                                .placeholder(R.color.cl_default)
-                                .error(R.color.white)
+                                .load(coursePlayModel.getPic_url())
+                                .placeholder(R.mipmap.banner)
+                                .error(R.mipmap.banner)
                                 .into(ivThumbnail);
                     }
                 })
@@ -116,6 +168,7 @@ public class VideoActivity extends AppCompatActivity{
                 //.setChargeTie(false,0)
                 .startPlay();
     }
+
 
 
 
@@ -194,5 +247,15 @@ public class VideoActivity extends AppCompatActivity{
         }
     }
 
+
+    @Override
+    public void onFragmentInteraction(CoursePlayModel coursePlayModel) {
+        L.e("onButtonPressed","activity ");
+        vp.setOffscreenPageLimit(0);
+        this.coursePlayModel = coursePlayModel;
+        player.onDestroy();
+        initData();
+        vp.setOffscreenPageLimit(flist.size());
+    }
 }
 

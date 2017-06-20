@@ -1,101 +1,92 @@
 package com.yunduancn.zhongshenjiaoyu.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.decoration.GridSpacingItemDecoration;
-import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListener;
-import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yunduancn.zhongshenjiaoyu.R;
-import com.yunduancn.zhongshenjiaoyu.adapter.CourseListAdapter;
-import com.yunduancn.zhongshenjiaoyu.adapter.MyCourseListAdapter;
-import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
+import com.yunduancn.zhongshenjiaoyu.adapter.WePagerAdapter;
+import com.yunduancn.zhongshenjiaoyu.fragment.MyCollectionFragment;
+import com.yunduancn.zhongshenjiaoyu.fragment.MyCourseFragment;
+import com.yunduancn.zhongshenjiaoyu.model.UserIndexModel;
+import com.yunduancn.zhongshenjiaoyu.utils.Constant;
+import com.yunduancn.zhongshenjiaoyu.utils.Dialogmanager;
+import com.yunduancn.zhongshenjiaoyu.utils.L;
+import com.yunduancn.zhongshenjiaoyu.utils.OkHttp_Utils;
+import com.yunduancn.zhongshenjiaoyu.utils.SharedPreferencesUtils;
+import com.yunduancn.zhongshenjiaoyu.utils.UrlUtils;
+import com.yunduancn.zhongshenjiaoyu.view.ViewPagerIndicator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MyCourseActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+import okhttp3.Call;
+
+public class MyCourseActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView title;
 
     ImageView back_image;
 
-    private List<String> list;
-
-
-
-    private SwipeRefreshLayout mRefreshLayout;
-    private RecyclerView recyclerView;
-    private RecyclerTouchListener onTouchListener;
-    private GridLayoutManager mLayoutManager;
-    private MyCourseListAdapter mAdapter;
+    ViewPager vp;
+    WePagerAdapter wePagerAdapter;
+    List<Fragment> flist;
+    ViewPagerIndicator mIndicator;
+    private List<String> mTitles = Arrays.asList("最近学习", "我的收藏");
+    private int CourseAndCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_course);
-
+        Dialogmanager.loadstart(this);
         initView();
-        onRefresh();
     }
 
 
     private void initView() {
         title = (TextView) findViewById(R.id.title);
         title.setText("我的课程");
+        CourseAndCollection = getIntent().getIntExtra("CourseAndCollection",0);
 
         back_image = (ImageView) findViewById(R.id.back_image);
         back_image.setVisibility(View.VISIBLE);
         back_image.setOnClickListener(this);
 
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.RefreshLayout);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        flist = new ArrayList<Fragment>();
+        flist.add(new MyCourseFragment());
 
-        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.blue), getResources().getColor(R.color.green), getResources().getColor(R.color.orange), getResources().getColor(R.color.red));
+        flist.add(new MyCollectionFragment());
+        vp = (ViewPager) findViewById(R.id.viewpager);
+        mIndicator = (ViewPagerIndicator) findViewById(R.id.id_indicator);
+        mIndicator.setVisibaleTabCount(flist.size());
+        mIndicator.setTabItemTitles(mTitles);
 
-        list = new ArrayList<>();
-        mRefreshLayout.setOnRefreshListener(this);
-        mLayoutManager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, 12, false));
-        mAdapter = new MyCourseListAdapter(this);
-        mAdapter.setJZDataList(list);
-        mAdapter.setHasMoreData(true);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnScrollListener(scrollListener);
-        //添加触摸监听
-        onTouchListener = new RecyclerTouchListener(this, recyclerView);
+        mIndicator.setViewPager(vp, CourseAndCollection);
 
-        onTouchListener.setClickable(new RecyclerTouchListener.OnRowClickListener() {
-            @Override
-            public void onRowClicked(int position) {
-                ToastUtils.show(getApplicationContext(),mAdapter.getItemData(position).toString()+"");
-            }
-
-            @Override
-            public void onIndependentViewClicked(int independentViewID, int position) {
-
-            }
-        });
-
-        recyclerView.addOnItemTouchListener(onTouchListener);
+        vp.setOffscreenPageLimit(flist.size());//这表示你的预告加载的页面数量
+        wePagerAdapter = new WePagerAdapter(getSupportFragmentManager(), flist);
+        vp.setAdapter(wePagerAdapter);
+        vp.setCurrentItem(CourseAndCollection);
 
     }
 
 
-    private void initData() {
-        list = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            list.add(i + "");
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -112,55 +103,5 @@ public class MyCourseActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    private ScrollListener scrollListener = new ScrollListener(mLayoutManager) {
-        @Override
-        public void onLoadMore() {
-            loadMore();
-        }
-    };
-
-    private void loadMore() {
-        //模拟加载更多
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                if (list.size() < 10) {
-                    mAdapter.setHasMoreDataAndFooter(false, true);
-                    return;
-                }
-                //currentpage++;
-                initDatajz();
-                ScrollListener.setLoadMore(!ScrollListener.loadMore);
-            }
-        }, 1000);
-    }
-
-    private void initDatajz() {
-        list.clear();
-        initData();
-        mAdapter.setJZDataList(list);
-    }
-
-
-    private void initDatasx() {
-        list.clear();
-        initData();
-        mAdapter.setSXDataList(list);
-    }
-
-    @Override
-    public void onRefresh() {
-        //避免刷新过快
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //currentpage = 1;
-                initDatasx();
-                mRefreshLayout.setRefreshing(false);
-                ScrollListener.setLoadMore(true);
-            }
-        }, 1000);
-    }
 
 }

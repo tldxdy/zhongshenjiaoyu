@@ -69,20 +69,20 @@ public class CourseAdapter extends BaseAdapter {
 
             courseCategoryModel = list.get(i);
 
-            if(i != 7){
+            //if(i != 7){
                 Glide.with(context)
                         .load(courseCategoryModel.getPic())
-                        .placeholder(R.color.cl_default)
-                        .error(R.color.white)
+                        .placeholder(R.mipmap.news)
+                        .error(R.mipmap.news)
                         .into(viewHolder.course_img);
-            }else{
+            /*}else{
                 int url = Integer.parseInt(courseCategoryModel.getPic());
                 Glide.with(context)
                         .load(url)
-                        .placeholder(R.color.cl_default)
-                        .error(R.color.white)
+                        .placeholder(R.mipmap.news)
+                        .error(R.mipmap.news)
                         .into(viewHolder.course_img);
-            }
+            }*/
 
             viewHolder.course_name.setText(courseCategoryModel.getClassname());
 

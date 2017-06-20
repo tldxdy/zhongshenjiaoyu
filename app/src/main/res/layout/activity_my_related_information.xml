@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:loonggg="http://schemas.android.com/apk/res-auto"
+    xmlns:hyman="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_related_information"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunduancn.zhongshenjiaoyu.activity.MyRelatedInformationActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_220"
+        android:background="@mipmap/background_my_related_information"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            app:srcCompat="@drawable/back_b"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="@dimen/dp_10"
+            android:id="@+id/back_image" />
+
+        <com.yunduancn.zhongshenjiaoyu.view.CircleImageView
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:src="@mipmap/me"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            loonggg:civ_border_color="@color/snow"
+            loonggg:civ_border_width="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_44"
+            android:id="@+id/image_touxiang" />
+
+
+        <TextView
+            android:text="@string/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_text"
+            android:textSize="@dimen/dp_14"
+            android:textColor="@color/white"
+            android:layout_below="@+id/image_touxiang"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/zhiye_text"
+            android:layout_below="@+id/name_text"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/dp_12"
+            android:textColor="@color/white"
+            android:layout_marginTop="7dp" />
+
+
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/dp_10"
+                >
+
+                <LinearLayout
+                    android:id="@+id/concern_layout"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="关注"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="bottom"
+                        />
+
+                    <TextView
+                        android:text="0"
+                        android:id="@+id/concern_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="top"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_0.5"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:id="@+id/fans_layout"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="粉丝"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="bottom"
+                        />
+
+                    <TextView
+                        android:text="0"
+                        android:id="@+id/fans_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="top"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="@dimen/dp_0.5"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:id="@+id/integral_layout"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="积分"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="@dimen/dp_5"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="bottom"
+                        />
+
+                    <TextView
+                        android:text="0"
+                        android:id="@+id/integral_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dp_12"
+                        android:gravity="top"
+                        />
+                </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+    <com.yunduancn.zhongshenjiaoyu.view.ViewPagerIndicator
+        android:id="@+id/id_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#f4f4f4"
+        android:orientation="horizontal"
+        hyman:textcolor="#333333"
+        hyman:visible_tab_count="4"
+        hyman:visiblelinecolor="#129955"
+        hyman:visibletextcolor="#129955"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

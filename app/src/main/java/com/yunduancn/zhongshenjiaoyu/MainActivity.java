@@ -15,6 +15,7 @@ import com.yunduancn.zhongshenjiaoyu.fragment.CourseFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.HomeFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.MyFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.NewsFragment;
+import com.yunduancn.zhongshenjiaoyu.utils.ActivityCollector;
 import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityCollector.addActivity(this);
+
        //CretinAutoUpdateUtils.getInstance(MainActivity.this).check();
         bar = (BottomNavigationBar) findViewById(R.id.bar);
 
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ActivityCollector.removeActivity(this);
         //CretinAutoUpdateUtils.getInstance(this).destroy();
     }
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_notes_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunduancn.zhongshenjiaoyu.activity.MyNotesDetailsActivity">
+   <include
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_44"
+    layout="@layout/home_head"/>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/white"
+        android:padding="@dimen/dp_10"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="60dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/course_img" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:gravity="left"
+            android:layout_toRightOf="@+id/course_img"
+            android:layout_toEndOf="@+id/course_img">
+
+
+                <TextView
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textSize="@dimen/dp_12"
+                    android:textColor="#282828"
+                    android:id="@+id/course_name" />
+
+                <TextView
+                    android:gravity="center"
+                    android:text="共1篇笔记"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/color_65"
+                    android:textSize="@dimen/dp_10"
+                    android:id="@+id/notes_num" />
+
+                <TextView
+                    android:gravity="center"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/course_time"
+                    android:textColor="@color/color_98"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textSize="@dimen/dp_10" />
+
+            </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+            <com.yunduancn.zhongshenjiaoyu.view.MyListView
+                android:id="@+id/listView"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:divider="@null"
+                android:dividerHeight="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

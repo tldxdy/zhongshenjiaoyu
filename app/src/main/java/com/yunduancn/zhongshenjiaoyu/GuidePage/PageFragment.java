@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.yunduancn.zhongshenjiaoyu.MainActivity;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.LoginActivity;
 
 
 /**
@@ -36,7 +37,7 @@ public class PageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(getContext(), MainActivity.class);
+                    intent.setClass(getContext(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }

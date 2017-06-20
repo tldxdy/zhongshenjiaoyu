@@ -251,10 +251,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         courselist.clear();
                         courselist.addAll(lists);
 
-                        CourseCategoryModel model = new CourseCategoryModel();
+                        /*CourseCategoryModel model = new CourseCategoryModel();
                         model.setClassname("更多课程");
                         model.setPic(R.mipmap.gengduo + "");
-                        courselist.add(model);
+                        courselist.add(model);*/
                         courseAdapter.notifyDataSetChanged();
 
                     }

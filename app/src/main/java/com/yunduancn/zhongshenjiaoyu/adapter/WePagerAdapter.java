@@ -19,6 +19,7 @@ public class WePagerAdapter extends FragmentPagerAdapter {
     }
 
 
+
     @Override
     public int getCount() {
         return fragments.size();
@@ -29,5 +30,6 @@ public class WePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         return fragments.get(position);
     }
+
 
 }

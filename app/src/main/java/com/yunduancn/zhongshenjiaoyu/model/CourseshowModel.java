@@ -50,7 +50,9 @@ public class CourseshowModel implements Serializable{
     private String introduce;
     private ArrayList<LecturerModel> teachers;
     private NextLearnLessonModel nextLearnLesson;
-    private ArrayList<CourseCategoryModel> items;
+    private ArrayList<CourseChapterModel> items;
+
+    private String favorite;
 
     public String getId() {
         return id;
@@ -60,11 +62,11 @@ public class CourseshowModel implements Serializable{
         this.id = id;
     }
 
-    public ArrayList<CourseCategoryModel> getItems() {
+    public ArrayList<CourseChapterModel> getItems() {
         return items;
     }
 
-    public void setItems(ArrayList<CourseCategoryModel> items) {
+    public void setItems(ArrayList<CourseChapterModel> items) {
         this.items = items;
     }
 
@@ -116,6 +118,15 @@ public class CourseshowModel implements Serializable{
         this.coursename = coursename;
     }
 
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
+    }
+
     @Override
     public String toString() {
         return "CourseshowModel{" +
@@ -127,6 +138,7 @@ public class CourseshowModel implements Serializable{
                 ", teachers=" + teachers +
                 ", nextLearnLesson=" + nextLearnLesson +
                 ", items=" + items +
+                ", favorite='" + favorite + '\'' +
                 '}';
     }
 }
