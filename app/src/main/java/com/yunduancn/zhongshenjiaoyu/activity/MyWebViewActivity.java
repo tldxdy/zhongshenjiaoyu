@@ -5,8 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.webkit.GeolocationPermissions;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yunduancn.zhongshenjiaoyu.LoadingSchedule.WebviewProgressDialog;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.utils.L;
 
@@ -28,6 +29,9 @@ public class MyWebViewActivity extends AppCompatActivity {
 
     private String url;
     private String titles;
+    private WebviewProgressDialog dialog;
+
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class MyWebViewActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        dialog = WebviewProgressDialog.createDialog(MyWebViewActivity.this);
+        dialog.show();
         titles = getIntent().getStringExtra("title");
         url = getIntent().getStringExtra("url");
         L.e("url",url);
@@ -81,6 +87,37 @@ public class MyWebViewActivity extends AppCompatActivity {
         //也可以写file:///sdcard/index.html
 
         // mWebView.loadUrl("file:///android_asset/index2.html");
+
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin,
+                                                           GeolocationPermissions.Callback callback) {
+                callback.invoke(origin, true, false);
+                super.onGeolocationPermissionsShowPrompt(origin, callback);
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress >99) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            //Dialogmanager.loadfinsh(0);
+                            dialog.dismiss();
+                        }
+                    }, 1000);
+
+                } else {
+
+                    dialog.setProgress(newProgress);
+                }
+
+                super.onProgressChanged(view, newProgress);
+            }
+
+        });
+
+
     }
 
     class DemoWebViewClient extends WebViewClient {

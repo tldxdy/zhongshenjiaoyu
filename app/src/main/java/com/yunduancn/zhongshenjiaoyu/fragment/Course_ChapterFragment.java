@@ -123,7 +123,7 @@ public class Course_ChapterFragment extends Fragment{
                         }.getType();
                         CoursePlayModel coursePlayModel = gson.fromJson(obj.toString(),type);
                         VideoActivity.courseId = courseChapterModel.getCourseId();
-
+                        VideoActivity.lessonId = courseChapterModel.getLessonId();
                         onButtonPressed(coursePlayModel);
 
                     } else {

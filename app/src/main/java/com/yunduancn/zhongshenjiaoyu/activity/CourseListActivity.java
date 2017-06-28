@@ -108,6 +108,9 @@ public class CourseListActivity extends AppCompatActivity implements View.OnClic
         onTouchListener.setClickable(new RecyclerTouchListener.OnRowClickListener() {
             @Override
             public void onRowClicked(int position) {
+                if(mAdapter.getContentItemCount() == 0){
+                    return;
+                }
                 Intent intent = new Intent(CourseListActivity.this, CourseInformationActivity.class);
                 intent.putExtra("coursesmodel",mAdapter.getItemData(position));
                 startActivity(intent);

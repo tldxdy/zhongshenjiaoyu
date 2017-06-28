@@ -116,6 +116,9 @@ public class MyNotesFragment extends Fragment   implements View.OnClickListener,
 
                     @Override
                     public void onIndependentViewClicked(int independentViewID, int position) {
+                        if(mAdapter.getContentItemCount() == 0){
+                            return;
+                        }
                         Intent intent = new Intent();
                         intent.setClass(context,MyNotesDetailsActivity.class);
                         intent.putExtra("myNotesListModel",mAdapter.getItemData(position));

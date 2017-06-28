@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_my_note"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yunduancn.zhongshenjiaoyu.activity.CommentsActivity">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        layout="@layout/home_head"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_height="@dimen/dp_44">
+        <TextView
+            android:text="请打分："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.yunduancn.zhongshenjiaoyu.view.RatingBar
+            android:id="@+id/rateingbar"
+            android:layout_width="360dp"
+            android:layout_height="match_parent"
+            app:starCount="5"
+            app:starEmpty="@mipmap/star2"
+            app:starFill="@mipmap/star"
+            app:starImageSize="20dp"
+            app:starPadding="10dp"
+            app:starStep="1.5"
+            app:stepSize="Full"/>
+
+       <!-- <com.yunduancn.zhongshenjiaoyu.view.CustonRatingbar
+            android:id="@+id/rateingbar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:cr_like_src="@mipmap/star"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            app:cr_size="@dimen/dp_10"
+            app:cr_src="@mipmap/star2"
+            android:layout_below="@+id/user_name"
+            android:layout_alignLeft="@+id/user_name"
+            android:layout_alignStart="@+id/user_name" />-->
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:background="#c2c2c2"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_weight="1"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:inputType="textMultiLine"
+        android:gravity="top|left"
+        android:textSize="@dimen/dp_14"
+        android:hint="输入你对此课程的评价"
+        android:background="@color/white"
+        android:id="@+id/editText" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:background="#c2c2c2"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+
+            android:text="发布"
+            android:id="@+id/text_bc"
+            android:gravity="center"
+            android:textSize="@dimen/dp_17"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/rounded_corners_4_lan"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/dp_30" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

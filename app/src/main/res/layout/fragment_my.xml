@@ -122,7 +122,7 @@
                             />
 
                         <TextView
-                            android:text="6"
+                            android:text="0"
                             android:id="@+id/concern_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                             />
 
                         <TextView
-                            android:text="16"
+                            android:text="0"
                             android:id="@+id/fans_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                             />
 
                         <TextView
-                            android:text="520"
+                            android:text="0"
                             android:id="@+id/integral_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                loonggg:srcCompat="@drawable/book"
+                loonggg:srcCompat="@mipmap/ic_historical_record"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -351,14 +351,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                loonggg:srcCompat="@drawable/book"
+                loonggg:srcCompat="@mipmap/ic_schedule"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 />
 
             <TextView
-                android:text="我的课表"
+                android:text="我的课程"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -395,7 +395,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                loonggg:srcCompat="@drawable/book"
+                loonggg:srcCompat="@mipmap/collection"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -442,7 +442,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/settings"
+            android:src="@mipmap/ic_settings"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

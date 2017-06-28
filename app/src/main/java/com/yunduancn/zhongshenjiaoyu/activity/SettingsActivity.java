@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private ImageView back_image, user_image;
     TextView title, cache_num;
 
-    private RelativeLayout cache_layout, user_information_layout;
+    private RelativeLayout cache_layout, user_information_layout, about_us, feedback_layout;
 
     private SwitchCompat switchcompat;
 
@@ -85,6 +85,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         cache_layout = (RelativeLayout) findViewById(R.id.cache_layout);
         cache_layout.setOnClickListener(this);
 
+        about_us = (RelativeLayout) findViewById(R.id.about_us);
+        about_us.setOnClickListener(this);
+
+        feedback_layout = (RelativeLayout) findViewById(R.id.feedback_layout);
+        feedback_layout.setOnClickListener(this);
+
         user_image = (ImageView) findViewById(R.id.user_image);
         user_name = (TextView) findViewById(R.id.user_name);
 
@@ -104,15 +110,29 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        initData();
-    }
-
-    private void initData() {
         try {
             cache_num.setText(DataCleanManager.getTotalCacheSize(getApplicationContext()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) == null){
+            Picasso.with(getApplicationContext())
+                    .load(R.mipmap.me)
+                    .error(R.mipmap.me)
+                    .resize(100,100)
+                    .placeholder(R.mipmap.me)
+                    .into(user_image);
+
+            user_name.setText("登录");
+            exit_login.setVisibility(View.GONE);
+        }else{
+            initData();
+            exit_login.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initData() {
 
         Map<String,String> map = new HashMap<>();
         map.put("userId",SharedPreferencesUtils.getValue(this,Constant.AppName,"userId",null));
@@ -166,9 +186,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.user_information_layout:
 
+                if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) == null){
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
                 if(userInfoModel == null){
                     return;
                 }
+
 
                 intent.setClass(this,PersonalCenterActivity.class);
                 intent.putExtra("userInfoModel",userInfoModel);
@@ -203,15 +230,26 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void exitlistener() {
                         SharedPreferencesUtils.putValue(getApplicationContext(), Constant.AppName,"userId",null);
-                        ActivityCollector.finishAll();
-                        intent.setClass(SettingsActivity.this,LoginActivity.class);
+                        //ActivityCollector.finishAll();
+                        //intent.setClass(SettingsActivity.this,LoginActivity.class);
                         ToastUtils.show(getApplicationContext(),"已退出登录");
-                        startActivity(intent);
-                        finish();
+                        //startActivity(intent);
+                        //finish();
+                        onResume();
                     }
                 });
                 break;
 
+            case R.id.about_us:
+                intent.setClass(this,AboutUsActivity.class);
+                startActivity(intent);
+
+                break;
+            case R.id.feedback_layout:
+                intent.setClass(this,FeedbackActivity.class);
+                startActivity(intent);
+
+                break;
 
 
             default:

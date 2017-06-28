@@ -20,8 +20,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.HistoricalRecordActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.LoginActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.MyCourseActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.MyNotesActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.MyProblemActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.MyRelatedInformationActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.SettingsActivity;
 import com.yunduancn.zhongshenjiaoyu.model.UserIndexModel;
@@ -125,8 +128,21 @@ public class MyFragment extends Fragment implements OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-
-        initData();
+        if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+            Picasso.with(getContext().getApplicationContext())
+                    .load(R.mipmap.me)
+                    .placeholder(R.mipmap.me)
+                    .error(R.mipmap.me)
+                    .resize(100,100)
+                    .into(user_image);
+            user_name.setText("登录");
+            concern_num.setText("0");
+            fans_num.setText("0");
+            integral_num.setText("0");
+            learning_time.setVisibility(View.GONE);
+        }else{
+            initData();
+        }
         Log.e("onResume()","onResume()");
     }
 
@@ -213,6 +229,12 @@ public class MyFragment extends Fragment implements OnClickListener{
         Intent intent = new Intent();
         switch (view.getId()){
             case R.id.user_information:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
 
                 intent.setClass(getContext(), MyRelatedInformationActivity.class);
                 startActivity(intent);
@@ -228,6 +250,11 @@ public class MyFragment extends Fragment implements OnClickListener{
 
                 break;
             case R.id.mycourse_layout:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
 
                 intent.setClass(getContext(),MyCourseActivity.class);
                 intent.putExtra("CourseAndCollection",0);
@@ -235,20 +262,56 @@ public class MyFragment extends Fragment implements OnClickListener{
 
                 break;
             case R.id.mynotes_layout:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
 
                 intent.setClass(getContext(), MyNotesActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.myproblem_layout:
-
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+                intent.setClass(getContext(), MyProblemActivity.class);
+                startActivity(intent);
                 break;
             case R.id.historical_record_layout:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                intent.setClass(getContext(),HistoricalRecordActivity.class);
+                startActivity(intent);
+
+
 
                 break;
             case R.id.myschedule_layout:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                intent.setClass(getContext(),MyCourseActivity.class);
+                intent.putExtra("CourseAndCollection",0);
+                startActivity(intent);
+
                 break;
             case R.id.mycollection_layout:
+                if(SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null) == null){
+                    intent.setClass(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
 
                 intent.setClass(getContext(),MyCourseActivity.class);
                 intent.putExtra("CourseAndCollection",1);

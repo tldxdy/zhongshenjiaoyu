@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.adapter.BaseAdapter;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.model.ReviewsListModel;
@@ -37,7 +38,7 @@ public class Course_CommentsAdapter extends BaseAdapter<ReviewsListModel, Course
     public void onBindItemViewHolder(ItemViewHolder holder, int position) {
         ReviewsListModel data = getItemData(position);
         if (data != null) {
-            Glide.with(mContext)
+            Picasso.with(mContext)
                     .load(data.getLargeAvatar())
                     .placeholder(R.mipmap.me)
                     .error(R.mipmap.me)

@@ -109,6 +109,10 @@ public class MyNotesActivity extends AppCompatActivity  implements View.OnClickL
 
                     @Override
                     public void onIndependentViewClicked(int independentViewID, int position) {
+                        if(mAdapter.getContentItemCount() == 0){
+                            return;
+                        }
+
                         Intent intent = new Intent();
                         intent.setClass(MyNotesActivity.this,MyNotesDetailsActivity.class);
                         intent.putExtra("myNotesListModel",mAdapter.getItemData(position));

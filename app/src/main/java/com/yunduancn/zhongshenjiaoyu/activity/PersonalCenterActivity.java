@@ -282,10 +282,10 @@ public class PersonalCenterActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.binding_email_layout:
 
-                intent.setClass(this,PersonalInformationModifyActivity.class);
+                /*intent.setClass(this,PersonalInformationModifyActivity.class);
                 intent.putExtra("title","编写邮箱");
                 intent.putExtra("content",binding_email_text.getText().toString().trim() + "");
-                startActivityForResult(intent,104);
+                startActivityForResult(intent,104);*/
 
 
                 break;
@@ -556,14 +556,17 @@ public class PersonalCenterActivity extends AppCompatActivity implements View.On
             switch (requestCode){
                 case 101:
                     profession_text.setText(d);
+                    Dialogmanager.loadstart(this);
                     setJobs();
                     break;
                 case 102:
                     signature_text.setText(d);
+                    Dialogmanager.loadstart(this);
                     setSignature();
                     break;
                 case 103:
                     nickname_text.setText(d);
+                    Dialogmanager.loadstart(this);
                     setNickname();
                     break;
                 case 104:
@@ -642,7 +645,7 @@ public class PersonalCenterActivity extends AppCompatActivity implements View.On
      */
     private void setJobs() {
         Map<String, String> map = new HashMap<>();
-        map.put("jobs", profession_text.getText().toString().trim() + "");
+        map.put("job", profession_text.getText().toString().trim() + "");
         map.put("userId", SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) + "");
         OkHttp_Utils.PostMethods(map, UrlUtils.jobsurl, new OkHttp_Utils.CallBack() {
             @Override

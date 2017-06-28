@@ -89,18 +89,17 @@
 
 
         <TextView
-            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dp_10"
-            android:maxLines="2"
             android:textColor="#282828"
             android:ellipsize="end"
             android:id="@+id/text_introduction"
             android:layout_below="@+id/user_image"
             android:layout_alignLeft="@+id/rateingbar"
             android:layout_alignStart="@+id/rateingbar" />
-
+        <!--android:maxLines="2"-->
 
     </RelativeLayout>
     <!-- <View

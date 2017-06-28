@@ -181,6 +181,7 @@
         android:background="@color/color_f2"
         />
     <RelativeLayout
+        android:id="@+id/feedback_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:clickable="true"
@@ -255,6 +256,7 @@
         android:background="@color/color_f2"
         />
     <RelativeLayout
+        android:id="@+id/about_us"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:clickable="true"

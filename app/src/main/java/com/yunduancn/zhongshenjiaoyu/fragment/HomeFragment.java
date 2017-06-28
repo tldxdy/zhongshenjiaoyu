@@ -193,6 +193,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Dialogmanager.loadfinsh(0);
             }
 
+
+
             @Override
             public void onMyResponse(String response, int id) {
                 Dialogmanager.loadfinsh(0);
@@ -230,13 +232,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         OkHttp_Utils.PostMethods(map, UrlUtils.hotclassurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回失败",e.toString());
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回成功",response);
 
                 try {
@@ -275,13 +277,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         OkHttp_Utils.PostMethods(map, UrlUtils.coursesindexurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回失败",e.toString());
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回成功",response);
 
                 try {
@@ -317,13 +319,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         OkHttp_Utils.PostMethods(map, UrlUtils.coursesindexurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回失败",e.toString());
             }
 
             @Override
             public void onMyResponse(String response, int id) {
-                Dialogmanager.loadfinsh(2000);
+                Dialogmanager.loadfinsh(0);
                 Log.e("返回成功",response);
 
                 try {

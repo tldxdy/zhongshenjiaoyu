@@ -48,11 +48,12 @@ public class CourseshowModel implements Serializable{
     private boolean userIsStudent;
     private String pic;
     private String introduce;
+
     private ArrayList<LecturerModel> teachers;
     private NextLearnLessonModel nextLearnLesson;
     private ArrayList<CourseChapterModel> items;
 
-    private String favorite;
+    private boolean favorite;
 
     public String getId() {
         return id;
@@ -118,12 +119,11 @@ public class CourseshowModel implements Serializable{
         this.coursename = coursename;
     }
 
-
-    public String getFavorite() {
+    public boolean isFavorite() {
         return favorite;
     }
 
-    public void setFavorite(String favorite) {
+    public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
 

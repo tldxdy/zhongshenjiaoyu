@@ -80,7 +80,6 @@ public class Course_CommentsFragment extends Fragment  implements View.OnClickLi
         view = inflater.inflate(R.layout.fragment_course__comments, container, false);
 
         initView();
-        onRefresh();
 
         return view;
     }
@@ -111,7 +110,7 @@ public class Course_CommentsFragment extends Fragment  implements View.OnClickLi
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
             @Override
             public void onRowClicked(int position) {
-                ToastUtils.show(getContext().getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+                //ToastUtils.show(getContext().getApplicationContext(),mAdapter.getItemData(position).toString()+"");
             }
 
             @Override
@@ -246,14 +245,19 @@ public class Course_CommentsFragment extends Fragment  implements View.OnClickLi
                     int code = json.getInt("code");
                     if (code == 0) {
                         JSONObject obj = json.getJSONObject("obj");
-                        JSONArray array = obj.getJSONArray("items");
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<ReviewsListModel>>() {
-                        }.getType();
-                        List<ReviewsListModel> lists = gson.fromJson(array.toString(), type);
+                        int total = obj.getInt("total");
+                        if(total == 0){
+
+                        }else {
+                            JSONArray array = obj.getJSONArray("items");
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<ArrayList<ReviewsListModel>>() {
+                            }.getType();
+                            List<ReviewsListModel> lists = gson.fromJson(array.toString(), type);
                             list.clear();
                             list.addAll(lists);
                             mAdapter.setSXDataList(list);
+                        }
 
                         if (list.size() != 10) {
                             mAdapter.setHasMoreDataAndFooter(false, true);
@@ -266,6 +270,11 @@ public class Course_CommentsFragment extends Fragment  implements View.OnClickLi
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    if (list.size() != 10) {
+                        mAdapter.setHasMoreDataAndFooter(false, true);
+                    }else{
+                        mAdapter.setHasMoreDataAndFooter(true, true);
+                    }
                 }
 
             }

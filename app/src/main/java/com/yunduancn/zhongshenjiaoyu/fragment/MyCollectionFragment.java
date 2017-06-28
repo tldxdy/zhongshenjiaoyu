@@ -1,6 +1,7 @@
 package com.yunduancn.zhongshenjiaoyu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,9 @@ import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.decoration.GridSpacingItemDe
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListener;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.CourseInformationActivity;
 import com.yunduancn.zhongshenjiaoyu.adapter.MyCourseAndCollectionAdapter;
+import com.yunduancn.zhongshenjiaoyu.model.Coursesmodel;
 import com.yunduancn.zhongshenjiaoyu.model.MyCourseAndCollectionModel;
 import com.yunduancn.zhongshenjiaoyu.model.MyCourseModel;
 import com.yunduancn.zhongshenjiaoyu.utils.Constant;
@@ -109,12 +112,21 @@ public class MyCollectionFragment extends Fragment implements View.OnClickListen
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
             @Override
             public void onRowClicked(int position) {
-                ToastUtils.show(context.getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+
             }
 
             @Override
             public void onIndependentViewClicked(int independentViewID, int position) {
-                ToastUtils.show(context.getApplicationContext(),mAdapter.getItemData(position).toString());
+                if(mAdapter.getContentItemCount() == 0){
+                    return;
+                }
+                Coursesmodel coursesmodel = new Coursesmodel();
+                coursesmodel.setPic(mAdapter.getItemData(position).getPic());
+                coursesmodel.setId(mAdapter.getItemData(position).getCourseId());
+                coursesmodel.setCoursename(mAdapter.getItemData(position).getCoursename());
+                Intent intent = new Intent(getContext(), CourseInformationActivity.class);
+                intent.putExtra("coursesmodel",coursesmodel);
+                startActivity(intent);
             }
         });
 
@@ -170,7 +182,7 @@ public class MyCollectionFragment extends Fragment implements View.OnClickListen
         map.put("pagesize", pagesize + "");
         map.put("currentpage", currentpage + "");
         map.put("userId", SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null));
-        OkHttp_Utils.PostMethods(map, UrlUtils.mycourseurl, new OkHttp_Utils.CallBack() {
+        OkHttp_Utils.PostMethods(map, UrlUtils.favoritescourseurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
                 Dialogmanager.loadfinsh(0);
@@ -221,7 +233,7 @@ public class MyCollectionFragment extends Fragment implements View.OnClickListen
         map.put("pagesize",pagesize + "");
         map.put("currentpage",currentpage + "");
         map.put("userId", SharedPreferencesUtils.getValue(getContext(), Constant.AppName,"userId",null));
-        OkHttp_Utils.PostMethods(map, UrlUtils.mycourseurl, new OkHttp_Utils.CallBack() {
+        OkHttp_Utils.PostMethods(map, UrlUtils.favoritescourseurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
                 Dialogmanager.loadfinsh(0);

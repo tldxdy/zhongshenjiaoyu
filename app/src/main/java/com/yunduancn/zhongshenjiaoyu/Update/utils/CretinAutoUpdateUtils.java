@@ -425,10 +425,10 @@ public class CretinAutoUpdateUtils {
         if ( !file.getParentFile().exists() ) {
             file.getParentFile().mkdirs();
         }
-        try {
+        /*try {
             if ( !file.createNewFile() ) {
                 Toast.makeText(mContext, "文件创建失败", Toast.LENGTH_SHORT).show();
-            } else {
+            } else {*/
                 //文件创建成功
                 intent = new Intent(mContext, DownloadService.class);
                 intent.putExtra("downUrl", downurl);
@@ -453,10 +453,10 @@ public class CretinAutoUpdateUtils {
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                 }
-            }
+       /*     }
         } catch ( IOException e ) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**

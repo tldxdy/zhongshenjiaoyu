@@ -19,8 +19,10 @@ import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListen
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.adapter.MyNotesAdapter;
+import com.yunduancn.zhongshenjiaoyu.adapter.MyProblemAdapter;
 import com.yunduancn.zhongshenjiaoyu.model.MyNotesListModel;
 import com.yunduancn.zhongshenjiaoyu.model.MyNotesModel;
+import com.yunduancn.zhongshenjiaoyu.model.ThreadListModel;
 import com.yunduancn.zhongshenjiaoyu.utils.Constant;
 import com.yunduancn.zhongshenjiaoyu.utils.Dialogmanager;
 import com.yunduancn.zhongshenjiaoyu.utils.OkHttp_Utils;
@@ -28,6 +30,7 @@ import com.yunduancn.zhongshenjiaoyu.utils.SharedPreferencesUtils;
 import com.yunduancn.zhongshenjiaoyu.utils.ToastUtils;
 import com.yunduancn.zhongshenjiaoyu.utils.UrlUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,13 +47,15 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
     private TextView title;
     private ImageView back_image;
 
-    private List<MyNotesListModel> list;
+    private List<ThreadListModel> list;
+
+
 
     private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView recyclerView;
     private RecyclerTouchListener onTouchListener;
     private GridLayoutManager mLayoutManager;
-    private MyNotesAdapter mAdapter;
+    private MyProblemAdapter mAdapter;
 
 
     private int pagesize = 10;
@@ -58,19 +63,22 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
     private int currentpage = 1;
 
     private int total_number = -1;
-    MyNotesModel myNotesModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_problem);
         initView();
-        Dialogmanager.loadstart(this);
-        onRefresh();
+
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Dialogmanager.loadstart(this);
+        onRefresh();
+    }
 
     private void initView() {
         title = (TextView) findViewById(R.id.title);
@@ -89,7 +97,7 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
         mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, 12, false));
-        mAdapter = new MyNotesAdapter(this);
+        mAdapter = new MyProblemAdapter(this);
         mAdapter.setJZDataList(list);
         mAdapter.setHasMoreData(true);
         recyclerView.setAdapter(mAdapter);
@@ -98,21 +106,30 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
         onTouchListener = new RecyclerTouchListener(this, recyclerView);
 
         onTouchListener
-                .setIndependentViews(R.id.examine_notes)
-                .setViewsToFade(R.id.examine_notes)
+                /*.setIndependentViews(R.id.image_is_dz)
+                .setViewsToFade(R.id.image_is_dz)*/
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
                     @Override
                     public void onRowClicked(int position) {
-                        // ToastUtils.show(getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+                        if(mAdapter.getContentItemCount() == 0){
+                            return;
+                        }
+                        Intent intent = new Intent();
+                        intent.setClass(MyProblemActivity.this, CourseQuestionActivity.class);
+                        intent.putExtra("threadListModel",mAdapter.getItemData(position));
+                        startActivity(intent);
+
+                        //ToastUtils.show(getContext().getApplicationContext(),mAdapter.getItemData(position).toString()+"");
                     }
 
                     @Override
                     public void onIndependentViewClicked(int independentViewID, int position) {
-                        /*Intent intent = new Intent();
-                        intent.setClass(MyNotesActivity.this,MyNotesDetailsActivity.class);
-                        intent.putExtra("myNotesListModel",mAdapter.getItemData(position));
-                        startActivity(intent);*/
-                        //ToastUtils.show(getApplicationContext(),mAdapter.getItemData(position).toString());
+                       /* switch (independentViewID){
+                            case R.id.image_is_dz:
+
+                                break;
+                        }*/
+
                     }
                 });
 
@@ -162,13 +179,12 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    private void initDatasx() {
-
+    private void initDatajz() {
         Map<String, String> map = new HashMap<>();
         map.put("pagesize", pagesize + "");
         map.put("currentpage", currentpage + "");
         map.put("userId", SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
-        OkHttp_Utils.PostMethods(map, UrlUtils.mynotesurl, new OkHttp_Utils.CallBack() {
+        OkHttp_Utils.PostMethods(map, UrlUtils.myaskurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
                 Dialogmanager.loadfinsh(0);
@@ -177,23 +193,21 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onMyResponse(String response, int id) {
                 Dialogmanager.loadfinsh(0);
-                Log.e("response.toString()", response.toString());
+                Log.e("myaskurl.toString()", response.toString());
                 try {
                     JSONObject json = new JSONObject(response);
                     int code = json.getInt("code");
                     if (code == 0) {
                         JSONObject obj = json.getJSONObject("obj");
+                        JSONArray array = obj.getJSONArray("items");
                         Gson gson = new Gson();
-                        Type type = new TypeToken<MyNotesModel>() {
+                        Type type = new TypeToken<ArrayList<ThreadListModel>>() {
                         }.getType();
-                        myNotesModel = gson.fromJson(obj.toString(), type);
-                        total_number = myNotesModel.getTotal();
-                        if (myNotesModel.getItems() != null) {
-                            list.clear();
-                            list.addAll(myNotesModel.getItems());
-                            mAdapter.setSXDataList(list);
+                        List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
+                        list.clear();
+                        list.addAll(lists);
+                        mAdapter.setJZDataList(list);
 
-                        }
                         if (list.size() != 10) {
                             mAdapter.setHasMoreDataAndFooter(false, true);
                         }else{
@@ -213,13 +227,13 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    private void initDatajz() {
 
-        Map<String,String> map = new HashMap<>();
-        map.put("pagesize",pagesize + "");
-        map.put("currentpage",currentpage + "");
+    private void initDatasx() {
+        Map<String, String> map = new HashMap<>();
+        map.put("pagesize", pagesize + "");
+        map.put("currentpage", currentpage + "");
         map.put("userId", SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
-        OkHttp_Utils.PostMethods(map, UrlUtils.mynotesurl, new OkHttp_Utils.CallBack() {
+        OkHttp_Utils.PostMethods(map, UrlUtils.myaskurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
                 Dialogmanager.loadfinsh(0);
@@ -228,22 +242,27 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onMyResponse(String response, int id) {
                 Dialogmanager.loadfinsh(0);
-                Log.e("response.toString()",response.toString());
+                Log.e("myaskurl.toString()", response.toString());
                 try {
                     JSONObject json = new JSONObject(response);
                     int code = json.getInt("code");
-                    if(code == 0){
+                    if (code == 0) {
                         JSONObject obj = json.getJSONObject("obj");
+                        JSONArray array = obj.getJSONArray("items");
                         Gson gson = new Gson();
-                        Type type = new TypeToken<MyNotesModel>() {}.getType();
-                        myNotesModel = gson.fromJson(obj.toString(),type);
-                        total_number = myNotesModel.getTotal();
-                        if(myNotesModel.getItems() != null){
-                            list.clear();
-                            list.addAll(myNotesModel.getItems());
-                            mAdapter.setJZDataList(list);
+                        Type type = new TypeToken<ArrayList<ThreadListModel>>() {
+                        }.getType();
+                        List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
+                        list.clear();
+                        list.addAll(lists);
+                        mAdapter.setSXDataList(list);
+
+                        if (list.size() != 10) {
+                            mAdapter.setHasMoreDataAndFooter(false, true);
+                        }else{
+                            mAdapter.setHasMoreDataAndFooter(true, true);
                         }
-                    }else{
+                    } else {
                         ToastUtils.show(getApplicationContext(), json.getString("msg"));
                     }
 
@@ -254,7 +273,6 @@ public class MyProblemActivity extends AppCompatActivity implements View.OnClick
             }
 
         });
-
     }
 
 

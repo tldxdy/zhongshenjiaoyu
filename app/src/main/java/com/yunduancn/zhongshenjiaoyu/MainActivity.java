@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 
 import com.wakehao.bar.BottomNavigationBar;
 import com.wakehao.bar.BottomNavigationItemWithDot;
+import com.yunduancn.zhongshenjiaoyu.Update.utils.CretinAutoUpdateUtils;
 import com.yunduancn.zhongshenjiaoyu.adapter.WePagerAdapter;
 import com.yunduancn.zhongshenjiaoyu.fragment.CourseFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.HomeFragment;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
 
-       //CretinAutoUpdateUtils.getInstance(MainActivity.this).check();
+        CretinAutoUpdateUtils.getInstance(MainActivity.this).check();
         bar = (BottomNavigationBar) findViewById(R.id.bar);
 
 
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
-        //CretinAutoUpdateUtils.getInstance(this).destroy();
+        CretinAutoUpdateUtils.getInstance(this).destroy();
     }
 
     @Override

@@ -62,7 +62,7 @@ public class MyAutoBannerAdapter implements AutoBannerView.AutoBannerAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtils.show(context.getApplicationContext(),urls.get(position).getPic() + "");
+               // ToastUtils.show(context.getApplicationContext(),urls.get(position).getPic() + "");
             }
         });
 

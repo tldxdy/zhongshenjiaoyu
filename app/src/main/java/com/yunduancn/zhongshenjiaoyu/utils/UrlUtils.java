@@ -6,7 +6,7 @@ package com.yunduancn.zhongshenjiaoyu.utils;
 
 public class UrlUtils {
 
-    final static String url = "http://ceshi.yunduancn.cn/";
+    public final static String url = "http://ceshi.yunduancn.cn/";
 
     //final static String url = "http://www.jxsqjy.cn/";
 
@@ -99,10 +99,54 @@ public class UrlUtils {
      */
     public static String reviewsurl = url + "mapi_v1/reviews ";
 
+
+    /**
+     *   2.7 发表评论页面
+     */
+    public static String createreviewsurl = url + "mapi_v1/createreviews ";
+
     /**
      * 2.8 问答列表页面（完成）
      */
     public static String threadurl = url + "mapi_v1/thread ";
+
+    /**
+     * 2.8 问答详细页面（完成）
+     */
+    public static String threadshowurl = url + "mapi_v1/threadshow ";
+
+    /**
+     *  2.9  发表问答页面(完成）
+     */
+    public static String createrthreadurl = url + "mapi_v1/createrthread ";
+
+
+    /**
+     * 2.10 问答答案回答
+     */
+    public static String answerposturl = url + "mapi_v1/answerpost";
+
+
+    /**
+     *  2.10  发布笔记页面(完成）
+     */
+    public static String lessonpluginurl = url + "mapi_v1/lessonplugin";
+
+
+    /**
+     *  2.11  获取修改笔记详情页面(完成）
+     */
+    public static String viewpluginurl = url + "mapi_v1/viewplugin";
+
+    /**
+     *   2.12 产品收藏
+     */
+    public static String favoriteurl = url + "mapi_v1/favorite";
+
+    /**
+     *  2.13 产品取消收藏
+     */
+    public static String unfavoriteurl = url + "mapi_v1/unfavorite";
 
     /**
      6.1 我的首页
@@ -122,7 +166,7 @@ public class UrlUtils {
     /**
      B、职业  job
      */
-    public static String jobsurl = url + "mapi_v1/userinfo/jobs";
+    public static String jobsurl = url + "mapi_v1/userinfo/job";
 
 
     /**
@@ -152,10 +196,24 @@ public class UrlUtils {
 
 
 
+
+
     /**
      6.4  我的课程
      */
     public static String mycourseurl = url + "mapi_v1/mycourse";
+
+    /**
+     6.4  历史记录
+     */
+    public static String myrecordurl = url + "mapi_v1/myrecord";
+
+    /**
+     6.5 我的收藏课程
+     */
+    public static String favoritescourseurl = url + "mapi_v1/favoritescourse";
+
+
     /**
      6.6我的笔记
      */
@@ -179,10 +237,13 @@ public class UrlUtils {
     /**
      * 7、新闻
      7.1 新闻列表
-     http://ceshi.yunduancn.cn/mapi_v1/
-
      */
     public static String articleurl = url + "mapi_v1/article";
+
+    /**
+     *  8.1 在线留言
+     */
+    public static String feedbackurl = url + "mapi_v1/feedback";
 
 
 }

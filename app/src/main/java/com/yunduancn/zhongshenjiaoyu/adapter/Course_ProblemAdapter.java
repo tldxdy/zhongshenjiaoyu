@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.adapter.BaseAdapter;
 import com.yunduancn.zhongshenjiaoyu.R;
 import com.yunduancn.zhongshenjiaoyu.model.ReviewsListModel;
@@ -45,7 +46,7 @@ public class Course_ProblemAdapter extends BaseAdapter<ThreadListModel, Course_P
     public void onBindItemViewHolder(ItemViewHolder holder, int position) {
         ThreadListModel data = getItemData(position);
         if (data != null) {
-            Glide.with(mContext)
+            Picasso.with(holder.user_image.getContext())
                     .load(data.getLargeAvatar())
                     .placeholder(R.mipmap.me)
                     .error(R.mipmap.me)

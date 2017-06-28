@@ -539,6 +539,7 @@
                 android:background="@color/color_f2" />
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/real_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
@@ -589,6 +590,7 @@
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"
@@ -596,6 +598,7 @@
                 android:background="@color/color_f2" />
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/school_registration_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
@@ -646,6 +649,7 @@
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/dp_10"

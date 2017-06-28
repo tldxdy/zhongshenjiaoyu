@@ -62,13 +62,15 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
     TextView text_study;
     Coursesmodel coursesmodel;
 
-    String userId;
+    //String userId;
 
     CourseshowModel courseshowModel;
 
     private CoursePlayingItemAdapter adapter;
     private ListView listview;
     private List<CourseChapterModel> list;
+
+    private boolean falg;
 
 
     @Override
@@ -78,15 +80,33 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
 
         initView();
-        Dialogmanager.loadstart(this);
-        initData();
+        if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) != null){
+            Dialogmanager.loadstart(this);
+        }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) == null){
+            text_name.setText(coursesmodel.getCoursename());
+            title.setText(coursesmodel.getCoursename());
+            Glide.with(this)
+                    .load(coursesmodel.getPic())
+                    .placeholder(R.mipmap.news)
+                    .error(R.mipmap.news)
+                    .into(image_course);
+        }else{
+
+            initData();
+        }
+    }
 
     float y = 0;
     private void initView() {
         coursesmodel = (Coursesmodel) getIntent().getSerializableExtra("coursesmodel");
-        userId = SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null);
         courseshowModel = new CourseshowModel();
 
         scrollView = (MyScrollView) findViewById(R.id.scrollView);
@@ -102,8 +122,9 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
         text_name.setTextColor(Color.argb(255, 255, 255, 255));
         title.setTextColor(Color.argb(0, 255, 255, 255));
 
-        text_name.setText(coursesmodel.getCoursename());
-        title.setText(coursesmodel.getCoursename());
+
+
+
 
         image_collection = (ImageView) findViewById(R.id.image_collection);
         image_collection.setOnClickListener(this);
@@ -131,7 +152,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
             Map<String, String> map = new HashMap<>();
             map.put("courseId",coursesmodel.getId());
-            map.put("userid",  userId);
+            map.put("userid",  SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
 
         Log.e("map.toString()", map.toString());
             OkHttp_Utils.PostMethods(map, UrlUtils.courseshowurl, new OkHttp_Utils.CallBack() {
@@ -172,7 +193,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
         Map<String, String> map = new HashMap<>();
         map.put("courseId",courseshowModel.getId());
-        map.put("userid",  userId);
+        map.put("userid",  SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
         OkHttp_Utils.PostMethods(map, UrlUtils.joincourseurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
@@ -211,7 +232,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
         Map<String, String> map = new HashMap<>();
         map.put("courseId",courseshowModel.getId());
         map.put("lessonId",courseshowModel.getNextLearnLesson().getLessonId());
-        map.put("userid",  userId);
+        map.put("userid",  SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
         OkHttp_Utils.PostMethods(map, UrlUtils.courseplayurl, new OkHttp_Utils.CallBack() {
             @Override
             public void onMyError(Call call, Exception e, int id) {
@@ -234,6 +255,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
                         Intent intent = new Intent(CourseInformationActivity.this, VideoActivity.class);
                         intent.putExtra("coursePlayModel",coursePlayModel);
                         intent.putExtra("courseId",courseshowModel.getId());
+                        intent.putExtra("lessonId",courseshowModel.getNextLearnLesson().getLessonId());
                         startActivity(intent);
 
 
@@ -266,16 +288,28 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
         }
         Glide.with(this)
                 .load(courseshowModel.getPic())
-                .placeholder(R.color.cl_default)
-                .error(R.color.white)
+                .placeholder(R.mipmap.news)
+                .error(R.mipmap.news)
                 .into(image_course);
+        falg = courseshowModel.isFavorite();
+        if(courseshowModel.isFavorite()){
+            image_collection.setImageResource(R.mipmap.have_been_collected);
+        }else{
+            image_collection.setImageResource(R.mipmap.ic_collection);
+        }
+
         list.clear();
 
+
         list.addAll(courseshowModel.getItems());
+        text_name.setText(courseshowModel.getCoursename());
+        title.setText(courseshowModel.getCoursename());
+
         adapter.notifyDataSetChanged();
 
 
     }
+
     Html.ImageGetter imgGetter = new Html.ImageGetter() {
         public Drawable getDrawable(String source) {
             Log.i("RG", "source---?>>>" + source);
@@ -328,8 +362,15 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()){
             case R.id.text_study:
+                if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) == null){
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
                 if(!courseshowModel.isUserIsStudent()){
                     dialogexit.show(this, "是否加入学习？", new dialogexit.onexitlistener() {
                         @Override
@@ -340,6 +381,7 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
                         }
                     });
                 }else{
+                    Dialogmanager.loadstart(CourseInformationActivity.this);
                     initstudying();
 
                     /*Intent intent = new Intent(this, VideoActivity.class);
@@ -353,14 +395,95 @@ public class CourseInformationActivity extends AppCompatActivity implements MySc
                 break;
 
             case R.id.image_collection:
+                if(SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null) == null){
+                    intent.setClass(this, LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+                Dialogmanager.loadstart(CourseInformationActivity.this);
+                if(falg){
+                    initUnFavorite();
+                }else{
+                    initFavorite();
 
-                ToastUtils.show(getApplicationContext(),"点击收藏");
+                }
+                //ToastUtils.show(getApplicationContext(),"功能在开发中，敬请期待。。");
+
                 break;
 
             default:
 
                 break;
         }
+    }
+
+    private void initUnFavorite() {
+        Map<String, String> map = new HashMap<>();
+        map.put("courseId",courseshowModel.getId());
+        map.put("userId",  SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
+        OkHttp_Utils.PostMethods(map, UrlUtils.unfavoriteurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+                Dialogmanager.loadfinsh(0);
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                Log.e("favoriteurl",response.toString());
+                Dialogmanager.loadfinsh(0);
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if (code == 0) {
+                        falg = false;
+                        image_collection.setImageResource(R.mipmap.ic_collection);
+                    }
+
+                    ToastUtils.show(getApplicationContext(), json.getString("msg"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
+    }
+
+    private void initFavorite() {
+        Map<String, String> map = new HashMap<>();
+        map.put("courseId",courseshowModel.getId());
+        map.put("userId",  SharedPreferencesUtils.getValue(this, Constant.AppName,"userId",null));
+        OkHttp_Utils.PostMethods(map, UrlUtils.favoriteurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+                Dialogmanager.loadfinsh(0);
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                Log.e("favoriteurl",response.toString());
+                Dialogmanager.loadfinsh(0);
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if (code == 0) {
+                        falg = true;
+                        image_collection.setImageResource(R.mipmap.have_been_collected);
+                    }
+                    ToastUtils.show(getApplicationContext(), json.getString("msg"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
+
     }
 
     @Override

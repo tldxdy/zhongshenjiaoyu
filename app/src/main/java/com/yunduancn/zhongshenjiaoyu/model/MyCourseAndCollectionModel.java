@@ -14,6 +14,7 @@ public class MyCourseAndCollectionModel implements Serializable{
      "pic": "http://ceshi.yunduancn.cn/files/course/2017/05-29/122935f6de10483332.jpg?7.5.12",
      "notesnum": 0,
      "threadnum": 0
+     "lessonId":
      }
      */
 
@@ -22,6 +23,7 @@ public class MyCourseAndCollectionModel implements Serializable{
     private String pic;
     private Integer notesnum;
     private Integer threadnum;
+    private String lessonId;
 
     public String getCourseId() {
         return courseId;
@@ -63,6 +65,14 @@ public class MyCourseAndCollectionModel implements Serializable{
         this.threadnum = threadnum;
     }
 
+    public String getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
+    }
+
     @Override
     public String toString() {
         return "MyCourseAndCollectionModel{" +
@@ -71,6 +81,7 @@ public class MyCourseAndCollectionModel implements Serializable{
                 ", pic='" + pic + '\'' +
                 ", notesnum=" + notesnum +
                 ", threadnum=" + threadnum +
+                ", lessonId=" + lessonId +
                 '}';
     }
 }

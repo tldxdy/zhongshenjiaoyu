@@ -21,6 +21,7 @@ public class ThreadListModel implements Serializable{
     private String title;
     private String createdTime;
     private String lessonId;
+    private String coursename;
 
 
     public String getId() {
@@ -95,6 +96,14 @@ public class ThreadListModel implements Serializable{
         this.createdTime = createdTime;
     }
 
+    public String getCoursename() {
+        return coursename;
+    }
+
+    public void setCoursename(String coursename) {
+        this.coursename = coursename;
+    }
+
 
     @Override
     public String toString() {
@@ -108,6 +117,7 @@ public class ThreadListModel implements Serializable{
                 ", title='" + title + '\'' +
                 ", createdTime='" + createdTime + '\'' +
                 ", lessonId='" + lessonId + '\'' +
+                ", coursename='" + coursename + '\'' +
                 '}';
     }
 }

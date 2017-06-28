@@ -3,13 +3,13 @@
     xmlns:hyman="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_video"
     android:orientation="vertical">
 
     <include
         layout="@layout/simple_player_view_player"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-
     <com.yunduancn.zhongshenjiaoyu.view.ViewPagerIndicator
         android:id="@+id/id_indicator"
         android:layout_width="match_parent"
@@ -21,11 +21,30 @@
         hyman:visiblelinecolor="#129955"
         hyman:visibletextcolor="#129955"
         />
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent">
+
+
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </android.support.v4.view.ViewPager>
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/image_jia"
+            hyman:srcCompat="@mipmap/image_jia" />
+        <!--hyman:srcCompat="@drawable/rotate_anim"-->
+    </FrameLayout>
+
 
 
 

@@ -115,6 +115,10 @@ public class News4Fragment extends Fragment  implements View.OnClickListener, Sw
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
                     @Override
                     public void onRowClicked(int position) {
+                        if(mAdapter.getContentItemCount() == 0){
+                            return;
+                        }
+
                         Intent intent = new Intent();
                         intent.setClass(getContext(), MyWebViewActivity.class);
                         intent.putExtra("url",mAdapter.getItemData(position).getNews_url());

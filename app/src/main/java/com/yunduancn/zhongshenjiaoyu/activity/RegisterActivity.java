@@ -177,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onMyError(Call call, Exception e, int id) {
                 Dialogmanager.loadfinsh(0);
                 Log.e("registerurl",e.toString());
+                ToastUtils.show(getApplicationContext(),e.toString());
             }
 
             @Override

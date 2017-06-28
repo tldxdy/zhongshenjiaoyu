@@ -1,6 +1,7 @@
 package com.yunduancn.zhongshenjiaoyu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,11 @@ import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.decoration.GridSpacingItemDe
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListener;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.CourseInformationActivity;
+import com.yunduancn.zhongshenjiaoyu.activity.VideoActivity;
 import com.yunduancn.zhongshenjiaoyu.adapter.MyCourseAndCollectionAdapter;
 import com.yunduancn.zhongshenjiaoyu.model.CourseListModel;
+import com.yunduancn.zhongshenjiaoyu.model.CoursePlayModel;
 import com.yunduancn.zhongshenjiaoyu.model.MyCourseAndCollectionModel;
 import com.yunduancn.zhongshenjiaoyu.model.MyCourseModel;
 import com.yunduancn.zhongshenjiaoyu.utils.Constant;
@@ -111,16 +115,69 @@ public class MyCourseFragment extends Fragment implements View.OnClickListener, 
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
             @Override
             public void onRowClicked(int position) {
-                ToastUtils.show(context.getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+
+
+               // ToastUtils.show(context.getApplicationContext(),mAdapter.getItemData(position).toString()+"");
             }
 
             @Override
             public void onIndependentViewClicked(int independentViewID, int position) {
-                ToastUtils.show(context.getApplicationContext(),mAdapter.getItemData(position).toString());
+                if(mAdapter.getContentItemCount() == 0){
+                    return;
+                }
+                Dialogmanager.loadstart(getContext());
+                initstudying(mAdapter.getItemData(position));
             }
         });
 
         recyclerView.addOnItemTouchListener(onTouchListener);
+
+    }
+
+    private void initstudying(final MyCourseAndCollectionModel model) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("courseId",model.getCourseId() +"");
+        map.put("lessonId",model.getLessonId() + "");
+        map.put("userid",  SharedPreferencesUtils.getValue(getContext(),Constant.AppName,"userId",null));
+        OkHttp_Utils.PostMethods(map, UrlUtils.courseplayurl, new OkHttp_Utils.CallBack() {
+            @Override
+            public void onMyError(Call call, Exception e, int id) {
+                Dialogmanager.loadfinsh(0);
+            }
+
+            @Override
+            public void onMyResponse(String response, int id) {
+                Log.e("courseplayurl",response.toString());
+                Dialogmanager.loadfinsh(0);
+                try {
+                    JSONObject json = new JSONObject(response);
+                    int code = json.getInt("code");
+                    if (code == 0) {
+                        JSONObject obj = json.getJSONObject("obj");
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<CoursePlayModel>() {
+                        }.getType();
+                        CoursePlayModel coursePlayModel = gson.fromJson(obj.toString(),type);
+                        Intent intent = new Intent(getActivity(), VideoActivity.class);
+                        intent.putExtra("coursePlayModel",coursePlayModel);
+                        intent.putExtra("courseId",model.getCourseId() +"");
+                        intent.putExtra("lessonId",model.getLessonId() + "");
+                        startActivity(intent);
+
+
+                    } else {
+
+                        ToastUtils.show(getContext().getApplicationContext(), json.getString("msg"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        });
 
     }
 

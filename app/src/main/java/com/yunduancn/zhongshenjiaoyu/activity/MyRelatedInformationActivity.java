@@ -21,6 +21,7 @@ import com.yunduancn.zhongshenjiaoyu.fragment.Course_DetailsFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.Course_ProblemFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.MyCourseFragment;
 import com.yunduancn.zhongshenjiaoyu.fragment.MyNotesFragment;
+import com.yunduancn.zhongshenjiaoyu.fragment.MyProblemFragment;
 import com.yunduancn.zhongshenjiaoyu.model.CoursePlayModel;
 import com.yunduancn.zhongshenjiaoyu.model.UserIndexModel;
 import com.yunduancn.zhongshenjiaoyu.utils.Constant;
@@ -90,7 +91,7 @@ public class MyRelatedInformationActivity extends AppCompatActivity implements V
 
         flist.add(new MyCourseFragment());
         flist.add(new MyNotesFragment());
-        flist.add(new MyCourseFragment());
+        flist.add(new MyProblemFragment());
         vp = (ViewPager) findViewById(R.id.viewpager);
         mIndicator = (ViewPagerIndicator) findViewById(R.id.id_indicator);
         mIndicator.setVisibaleTabCount(flist.size());

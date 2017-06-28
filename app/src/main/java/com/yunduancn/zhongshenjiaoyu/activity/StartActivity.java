@@ -47,11 +47,7 @@ public class StartActivity extends AppCompatActivity {
 
         }else {
             Intent intent = new Intent();
-            if(SharedPreferencesUtils.getValue(getApplicationContext(), Constant.AppName,"userId",null) != null){
-                intent.setClass(this, MainActivity.class);
-            }else{
-                intent.setClass(this, LoginActivity.class);
-            }
+            intent.setClass(this, MainActivity.class);
             startActivity(intent);
         }
         finish();

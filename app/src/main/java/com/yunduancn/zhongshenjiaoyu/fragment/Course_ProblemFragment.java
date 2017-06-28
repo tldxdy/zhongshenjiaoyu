@@ -1,6 +1,7 @@
 package com.yunduancn.zhongshenjiaoyu.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.decoration.GridSpacingItemDe
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.RecyclerTouchListener;
 import com.yunduancn.zhongshenjiaoyu.MyRecyclerView.listener.ScrollListener;
 import com.yunduancn.zhongshenjiaoyu.R;
+import com.yunduancn.zhongshenjiaoyu.activity.CourseQuestionActivity;
 import com.yunduancn.zhongshenjiaoyu.activity.VideoActivity;
 import com.yunduancn.zhongshenjiaoyu.adapter.Course_CommentsAdapter;
 import com.yunduancn.zhongshenjiaoyu.adapter.Course_ProblemAdapter;
@@ -81,7 +83,6 @@ public class Course_ProblemFragment extends Fragment  implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_course__problem, container, false);
         initView();
-        onRefresh();
 
         return view;
     }
@@ -107,21 +108,29 @@ public class Course_ProblemFragment extends Fragment  implements View.OnClickLis
         onTouchListener = new RecyclerTouchListener(getActivity(), recyclerView);
 
         onTouchListener
-                .setIndependentViews(R.id.image_is_dz)
-                .setViewsToFade(R.id.image_is_dz)
+                /*.setIndependentViews(R.id.image_is_dz)
+                .setViewsToFade(R.id.image_is_dz)*/
                 .setClickable(new RecyclerTouchListener.OnRowClickListener() {
                     @Override
                     public void onRowClicked(int position) {
-                        ToastUtils.show(getContext().getApplicationContext(),mAdapter.getItemData(position).toString()+"");
+                        if(mAdapter.getContentItemCount() == 0){
+                            return;
+                        }
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), CourseQuestionActivity.class);
+                        intent.putExtra("threadListModel",mAdapter.getItemData(position));
+                        getActivity().startActivity(intent);
+
+                        //ToastUtils.show(getContext().getApplicationContext(),mAdapter.getItemData(position).toString()+"");
                     }
 
                     @Override
                     public void onIndependentViewClicked(int independentViewID, int position) {
-                        switch (independentViewID){
+                       /* switch (independentViewID){
                             case R.id.image_is_dz:
 
                                 break;
-                        }
+                        }*/
 
                     }
                 });
@@ -198,14 +207,19 @@ public class Course_ProblemFragment extends Fragment  implements View.OnClickLis
                     int code = json.getInt("code");
                     if (code == 0) {
                         JSONObject obj = json.getJSONObject("obj");
-                        JSONArray array = obj.getJSONArray("items");
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<ThreadListModel>>() {
-                        }.getType();
-                        List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
-                        list.clear();
-                        list.addAll(lists);
-                        mAdapter.setJZDataList(list);
+                        int total = obj.getInt("total");
+                        if(total == 0){
+
+                        }else {
+                            JSONArray array = obj.getJSONArray("items");
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<ArrayList<ThreadListModel>>() {
+                            }.getType();
+                            List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
+                            list.clear();
+                            list.addAll(lists);
+                            mAdapter.setJZDataList(list);
+                        }
 
                         if (list.size() != 10) {
                             mAdapter.setHasMoreDataAndFooter(false, true);
@@ -218,6 +232,11 @@ public class Course_ProblemFragment extends Fragment  implements View.OnClickLis
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    if (list.size() != 10) {
+                        mAdapter.setHasMoreDataAndFooter(false, true);
+                    }else{
+                        mAdapter.setHasMoreDataAndFooter(true, true);
+                    }
                 }
 
             }
@@ -247,14 +266,19 @@ public class Course_ProblemFragment extends Fragment  implements View.OnClickLis
                     int code = json.getInt("code");
                     if (code == 0) {
                         JSONObject obj = json.getJSONObject("obj");
-                        JSONArray array = obj.getJSONArray("items");
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<ArrayList<ThreadListModel>>() {
-                        }.getType();
-                        List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
-                        list.clear();
-                        list.addAll(lists);
-                        mAdapter.setSXDataList(list);
+                        int total = obj.getInt("total");
+                        if(total == 0){
+
+                        }else {
+                            JSONArray array = obj.getJSONArray("items");
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<ArrayList<ThreadListModel>>() {
+                            }.getType();
+                            List<ThreadListModel> lists = gson.fromJson(array.toString(), type);
+                            list.clear();
+                            list.addAll(lists);
+                            mAdapter.setSXDataList(list);
+                        }
 
                         if (list.size() != 10) {
                             mAdapter.setHasMoreDataAndFooter(false, true);

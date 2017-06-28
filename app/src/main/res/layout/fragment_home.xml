@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:focusableInTouchMode="true"
     tools:context="com.yunduancn.zhongshenjiaoyu.fragment.HomeFragment">
+
     <RelativeLayout
         android:id="@+id/relayout_head"
         android:orientation="horizontal"
@@ -62,7 +63,7 @@
             android:padding="@dimen/dp_10"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            app:srcCompat="@mipmap/logo" />
+            app:srcCompat="@mipmap/home_logo" />
 
 
 
@@ -73,9 +74,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginStart="@dimen/dp_5"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/dp_12"
             android:id="@+id/search_image"
-            app:srcCompat="@android:drawable/ic_menu_search" />
+            app:srcCompat="@mipmap/my_search" />
 
 
 

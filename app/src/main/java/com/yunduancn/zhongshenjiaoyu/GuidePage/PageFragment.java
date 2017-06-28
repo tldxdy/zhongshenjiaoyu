@@ -37,7 +37,7 @@ public class PageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(getContext(), LoginActivity.class);
+                    intent.setClass(getContext(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
                 }

@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -65,7 +64,15 @@
         <activity android:name=".activity.MyNotesActivity" />
         <activity android:name=".activity.MyNotesDetailsActivity" />
         <activity android:name=".activity.MyProblemActivity" />
-        <activity android:name=".activity.MyWebViewActivity"></activity>
+        <activity android:name=".activity.MyWebViewActivity" />
+        <activity android:name=".activity.CourseQuestionActivity" />
+        <activity android:name=".activity.MyAnswerActivity" />
+        <activity android:name=".activity.MyNoteActivity" />
+        <activity android:name=".activity.CourseQuestionsActivity" />
+        <activity android:name=".activity.CommentsActivity" />
+        <activity android:name=".activity.AboutUsActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity android:name=".activity.HistoricalRecordActivity"></activity>
     </application>
 
 </manifest>

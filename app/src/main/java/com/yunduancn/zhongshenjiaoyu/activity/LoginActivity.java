@@ -77,8 +77,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.login_text:
-                Dialogmanager.loadstart(this);
-                login();
+                if("".equals(user_name.getText().toString().trim()) || "".equals(user_pass.getText().toString().trim())){
+                }else{
+                    Dialogmanager.loadstart(this);
+                    login();
+                }
                 break;
             case R.id.forgot_password:
                 startActivity(new Intent(this, RetrievePasswordActivity.class));
@@ -144,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         SharedPreferencesUtils.putValue(getApplicationContext(), Constant.AppName,"userId",userId + "");
 
-                        startActivity(new Intent().setClass(LoginActivity.this, MainActivity.class));
+                        //startActivity(new Intent().setClass(LoginActivity.this, MainActivity.class));
                         finish();
 
                     }
